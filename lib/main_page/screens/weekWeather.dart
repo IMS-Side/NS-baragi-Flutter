@@ -12,10 +12,13 @@ class WeekWeather extends StatefulWidget {
 class _WeekWeatherState extends State<WeekWeather> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const <Widget>[
-        WeekCard(),//WeekCard 호출
-      ],
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.5, // 높이 제한
+      child: ListView(
+        children: const <Widget>[
+          WeekCard(), // WeekCard 호출
+        ],
+      ),
     );
   }
 }

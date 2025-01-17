@@ -22,7 +22,7 @@ class _WeekCardState extends State<WeekCard> {
               "오늘",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: 14,
               ),
             ),
             //날씨 Icons
@@ -45,32 +45,28 @@ class _WeekCardState extends State<WeekCard> {
             Row(
               children: [
                 Icon(
-                  Icons.water_drop, //추후 변경예정
+                  Icons.water_drop, // 추후 변경 예정
                   color: Color(0xffC5D1DC),
                 ),
-                SizedBox(width: 4,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "10%",
-                      style: TextStyle(
-                        color: Color(0xffC5D1DC),
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 4,),
-                    Text(
-                      "5° / -2°",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
+                SizedBox(width: 4),
+                Text(
+                  "10%",
+                  style: TextStyle(
+                    color: Color(0xffC5D1DC),
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(width: 8), // 텍스트 간 간격
+                Text(
+                  "5° / -2°",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ],
             )
+
           ],
         )
 

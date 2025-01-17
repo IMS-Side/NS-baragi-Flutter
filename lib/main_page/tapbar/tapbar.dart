@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class tapbar extends StatefulWidget {
-  const tapbar({super.key});
+class TapBar extends StatefulWidget {
+  const TapBar({super.key});
 
   @override
-  State<tapbar> createState() => _tapbarState();
+  State<TapBar> createState() => _TapBarState();
 }
 
-class _tapbarState extends State<tapbar> with SingleTickerProviderStateMixin {
+class _TapBarState extends State<TapBar> with SingleTickerProviderStateMixin {
 
   late TabController tabController = TabController(
     length: 3, vsync: this, initialIndex: 0,
