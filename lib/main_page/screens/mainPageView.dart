@@ -3,7 +3,6 @@ import 'package:nsbaragi/main_page/screens/presentWeather.dart';
 import 'package:nsbaragi/main_page/screens/dayWeather.dart';
 import 'package:nsbaragi/main_page/screens/weekWeather.dart';
 
-
 class MainPageView extends StatefulWidget {
   const MainPageView({super.key});
 
