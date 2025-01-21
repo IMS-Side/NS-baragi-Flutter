@@ -27,14 +27,48 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xff4EB5F4),
       //appBar: (),
-      body: MainPageView(),
+      body: BasicBackground(
+          child: MainPageView(),
+      ),
     );
   }
 }
+
+
+class BasicBackground extends StatelessWidget {
+  final Widget child;
+
+  const BasicBackground({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF4EB5F4),
+            Color(0xFFA2CFF9),
+            Color(0x80D2DAEC),
+          ],
+          stops: [
+            0.13, // 13% 위치
+            0.70, // 70% 위치
+            1.0,  // 100% 위치
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+
+
+

@@ -15,11 +15,10 @@ class _MainPageViewState extends State<MainPageView> {
   Widget build(BuildContext context) {
     return const Column(
         children: <Widget>[
-          PresentWeather(),
-          DayWeather(),
-          // WeekWeather를 Expanded로 감싸기
+          PresentWeather(), //현재 날씨
+          DayWeather(), //하루 날씨
           Expanded(
-            child: WeekWeather(),
+            child: WeekWeather(), //주간 날씨
           ),
         ],
     );
