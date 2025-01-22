@@ -25,6 +25,7 @@ Widget _temper(){
   return const SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 8,),
           Text("정왕동",
             style: TextStyle(
                 fontSize: 13,
