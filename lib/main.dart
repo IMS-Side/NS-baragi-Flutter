@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void initState(){
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -62,6 +62,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             children: const [
               MainPageView(),
               //여기에 이제 다른 페이지 추가
+              Center(child: Text("체감 날씨 페이지")), // 두 번째 탭
+              Center(child: Text("옷 추천 페이지")), // 세 번째 탭
+              Center(child: Text("위치 설정 페이지")), // 네 번째 탭
             ],
           )
       )

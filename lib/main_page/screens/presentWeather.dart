@@ -22,8 +22,7 @@ class _PresentWeatherState extends State<PresentWeather> {
 }
 
 Widget _temper(){
-  return const SingleChildScrollView(
-      child: Column(
+  return const Column(
         children: [
           SizedBox(height: 8,),
           Text("정왕동",
@@ -53,13 +52,11 @@ Widget _temper(){
           ),
           SizedBox(height: 10,),
         ],
-      )
   );
 }
 
 Widget _agreement(){
-  return SingleChildScrollView(
-      child: Column(
+  return Column(
         children: [
           const Text("현재 날씨에 동의하나요?",
             style: TextStyle(
@@ -125,8 +122,6 @@ Widget _agreement(){
               ),
             ],
           )
-
         ],
-      ),
   );
 }

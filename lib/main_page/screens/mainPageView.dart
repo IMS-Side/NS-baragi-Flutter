@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/screens/otherWeather.dart';
 import 'package:nsbaragi/main_page/screens/presentWeather.dart';
 import 'package:nsbaragi/main_page/screens/dayWeather.dart';
 import 'package:nsbaragi/main_page/screens/weekWeather.dart';
@@ -13,14 +14,20 @@ class MainPageView extends StatefulWidget {
 class _MainPageViewState extends State<MainPageView> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return const SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          PresentWeather(), //현재 날씨
-          DayWeather(), //하루 날씨
-          Expanded(
-            child: WeekWeather(), //주간 날씨
-          ),
+          PresentWeather(), // 현재 날씨
+          SizedBox(height: 12), // 사이 간격
+          DayWeather(), // 하루 날씨
+          SizedBox(height: 12), // 사이 간격
+          WeekWeather(), // 주간 날씨
+          SizedBox(height: 12), // 사이 간격
+          OtherWeather(), // 기타 날씨
+          SizedBox(height: 12),
         ],
+      ),
     );
   }
 }
