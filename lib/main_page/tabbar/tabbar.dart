@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class TapBarScreen extends StatelessWidget implements PreferredSizeWidget {
+class TabBarScreen extends StatelessWidget implements PreferredSizeWidget {
   final TabController tabController;
 
-  const TapBarScreen({required this.tabController, super.key});
+  const TabBarScreen({required this.tabController, super.key});
 
   @override
   Widget build(BuildContext context) {

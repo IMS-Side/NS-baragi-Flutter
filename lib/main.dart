@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nsbaragi/BackGround.dart';
-import 'package:nsbaragi/main_page/tapbar/tapbar.dart';
 import 'main_page/screens/mainPageView.dart';
+import 'main_page/tabbar/tabbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         toolbarHeight: 0,
         elevation: 0, // 그림자 제거
         backgroundColor: Colors.transparent, // AppBar 배경 투명화
-        bottom: TapBarScreen(tabController: _tabController),
+        bottom: TabBarScreen(tabController: _tabController),
         //_tabController와 연결
       ),
 
