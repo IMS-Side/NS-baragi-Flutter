@@ -13,34 +13,40 @@ class Statistic extends StatelessWidget {
         SizedBox(height: 27),
         Container(
           width: 317,
-          height: 314,
-          child: Stack(
+          child: Column(
             children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                child: StatisticCard(),
+              Container(
+                height: 314,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: StatisticCard(),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: StatisticCard(),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: StatisticCard(),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: StatisticCard(),
+                    ),
+                  ],
+                ),
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: StatisticCard(),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                child: StatisticCard(),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: StatisticCard(),
-              ),
+              SizedBox(height: 24),
+              StatisticWideCard(),
             ],
           ),
         ),
-        SizedBox(height: 24),
-        StatisticWideCard(),
         SizedBox(height: 36),
         ElevatedButton(
           onPressed: (){},
