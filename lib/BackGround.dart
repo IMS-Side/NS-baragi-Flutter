@@ -17,15 +17,20 @@ class Background extends StatelessWidget {
     0.70, // 70% 위치
     1.0,  // 100% 위치
   ];
-  final suset = [
+  final sunset = [
     const Color(0xFF342D95),
     const Color(0xFFA480CF),
     const Color(0x80E99783),
   ];
-  final suset_stop = [
+  final sunset_stop = [
     0.13,
     0.56,
     0.84,
+  ];
+  final night = [
+    const Color(0xFF202246),
+    const Color(0xFF415ABD),
+    const Color(0x807088AC),
   ];
 
   //final background;
