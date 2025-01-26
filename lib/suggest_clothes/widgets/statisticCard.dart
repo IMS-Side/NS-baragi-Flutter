@@ -16,6 +16,7 @@ class _StatisticCardState extends State<StatisticCard> {
           borderRadius: BorderRadius.circular(15.0)
       ),
       elevation: 0.0,
+      margin: EdgeInsets.zero,
       child: Container(
         width: 140,
         height: 145,
