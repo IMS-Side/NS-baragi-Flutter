@@ -11,6 +11,7 @@ class _StatisticWideCardState extends State<StatisticWideCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.transparent,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0)
       ),
