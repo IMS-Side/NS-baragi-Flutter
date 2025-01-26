@@ -18,6 +18,8 @@ class ApparentWeatherView extends StatelessWidget {
           Weather(),
 
           Statistic(),
+
+          SizedBox(width: MediaQuery.of(context).size.width, height: 99),
         ],
       ),
     );
