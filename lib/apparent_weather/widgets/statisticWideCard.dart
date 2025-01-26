@@ -16,6 +16,7 @@ class _StatisticWideCardState extends State<StatisticWideCard> {
           borderRadius: BorderRadius.circular(15.0)
       ),
       elevation: 0.0,
+      margin: EdgeInsets.zero,
       child: Container(
         width: 317,
         height: 135,

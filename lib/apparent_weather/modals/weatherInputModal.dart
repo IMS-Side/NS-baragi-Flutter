@@ -12,6 +12,7 @@ class WeatherInputModal extends StatelessWidget {
     return Card(
       color: Colors.transparent,
       elevation: 0.0,
+      margin: EdgeInsets.zero,
 
       child: Container(
         width: size.width * 0.937,
