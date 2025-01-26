@@ -10,6 +10,7 @@ class WeatherInputModal extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Card(
+      color: Colors.transparent,
       elevation: 0.0,
 
       child: Container(
