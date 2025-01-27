@@ -23,6 +23,8 @@ class _RegionWeatherState extends State<RegionWeather> {
     ),
   ];
 
+  // 추후 API 추가 후 addCard() 사용할 예정.
+
   // void _addCard() {
   //   setState(() {
   //     cards.add(
