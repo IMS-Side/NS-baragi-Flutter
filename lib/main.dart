@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nsbaragi/BackGround.dart';
+import 'package:nsbaragi/apparent_weather/screens/apparentWeatherView.dart';
 import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
+import 'package:nsbaragi/suggest_clothes/screens/suggestClothesView.dart';
 import 'main_page/screens/mainPageView.dart';
 import 'main_page/tabbar/tabbar.dart';
 
@@ -67,10 +69,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           child: TabBarView(
             controller: _tabController,
             children: const [
-              MainPageView(),
-              //여기에 이제 다른 페이지 추가
-              Center(child: Text("체감 날씨 페이지")), // 두 번째 탭
-              Center(child: Text("옷 추천 페이지")), // 세 번째 탭
+              Center(child: MainPageView()),
+              Center(child: ApparentWeatherView()), // 두 번째 탭
+              Center(child: SuggestClothesView()), // 세 번째 탭
               //Center(child: Text("위치 설정 페이지")), // 네 번째 탭
             ],
           )
