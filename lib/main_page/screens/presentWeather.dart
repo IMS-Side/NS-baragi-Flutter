@@ -27,27 +27,31 @@ Widget _temper(){
           SizedBox(height: 24,),
           Text("정왕동",
             style: TextStyle(
-                fontSize: 13,
-                color: Colors.white //나중에 white로 바꿔야함.
+              fontSize: 13,
+              color: Colors.white,
+              fontFamily: 'PretendardSemiBold',
             ),
           ),
-          Text("12°C",
+          Text("12°",
             style: TextStyle(
                 fontSize: 64,
-                color: Colors.white //나중에 white로 바꿔야함.
+                color: Colors.white,
+              fontFamily: 'PretendardRegular',
             ),
           ),
           Text("맑음",
             style: TextStyle(
                 fontSize: 12,
-                color: Colors.white //나중에 white로 바꿔야함.
+                color: Colors.white,
+              fontFamily: 'PretendardSemiBold',
             ),
           ),
           SizedBox(height: 10,),
-          Text("최고:13°C 최저:-88°C",
+          Text("최고:13° 최저:-88°",
             style: TextStyle(
                 fontSize: 12,
-                color: Colors.white //나중에 white로 바꿔야함.
+                color: Colors.white,
+              fontFamily: 'PretendardSemiBold',
             ),
           ),
           SizedBox(height: 10,),
@@ -61,14 +65,16 @@ Widget _agreement(){
           const Text("현재 날씨에 동의하나요?",
             style: TextStyle(
                 fontSize: 10,
-                color: Colors.white //나중에 white로 바꿔야함.
+                color: Colors.white,
+              fontFamily: 'PretendardRegular',
             ),
           ),
           const SizedBox(height: 5,),
           const Text("10%가 동의해요",
             style: TextStyle(
                 fontSize: 10,
-                color: Colors.white //나중에 white로 바꿔야함.
+                color: Colors.white,
+              fontFamily: 'PretendardRegular',
             ),
           ),
           const SizedBox(height: 5,),
@@ -93,6 +99,7 @@ Widget _agreement(){
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
+                      fontFamily: 'PretendardRegular',
                     ),
                   ),
                 ),
@@ -116,6 +123,7 @@ Widget _agreement(){
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
+                      fontFamily: 'PretendardRegular',
                     ),
                   ),
                 ),

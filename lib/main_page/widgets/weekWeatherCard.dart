@@ -24,6 +24,7 @@ class _WeekCardState extends State<WeekCard> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14,
+                fontFamily: 'PretendardSemiBold',
               ),
             ),
             //날씨 Icons
@@ -55,6 +56,7 @@ class _WeekCardState extends State<WeekCard> {
                   style: TextStyle(
                     color: Color(0xffC5D1DC),
                     fontSize: 16,
+                    fontFamily: 'PretendardRegular',
                   ),
                 ),
                 SizedBox(width: 8), // 텍스트 간 간격
@@ -63,6 +65,7 @@ class _WeekCardState extends State<WeekCard> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
+                    fontFamily: 'PretendardRegular',
                   ),
                 ),
               ],

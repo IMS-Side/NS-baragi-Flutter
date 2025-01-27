@@ -33,6 +33,7 @@ class RegionWeatherCard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
+                        fontFamily: 'PretendardSemiBold',
                       ),
                     ),
                     Row(
@@ -48,6 +49,7 @@ class RegionWeatherCard extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
+                            fontFamily: 'PretendardRegular',
                           ),
                         ),
                       ],

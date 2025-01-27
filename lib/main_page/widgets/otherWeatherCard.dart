@@ -15,11 +15,10 @@ class _OtherWeatherCardState extends State<OtherWeatherCard> {
       child: Container(
         width: 190,
         height: 80,
-        padding: const EdgeInsets.all(12.0), // 내부 여백
-        //여백때문에 오류가 일어나나?
+        padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           color: const Color(0x40467ABE), // 배경색 (파란색)
-          borderRadius: BorderRadius.circular(8.0), // 모서리 둥글게
+          borderRadius: BorderRadius.circular(8.0),
         ),
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,6 +39,7 @@ class _OtherWeatherCardState extends State<OtherWeatherCard> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
+                    fontFamily: 'PretendardRegular',
                   ),
                 ),
                 Text(
@@ -47,6 +47,7 @@ class _OtherWeatherCardState extends State<OtherWeatherCard> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
+                    fontFamily: 'PretendardRegular',
                   ),
                 ),
               ],

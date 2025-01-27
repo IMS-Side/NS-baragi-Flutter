@@ -69,6 +69,7 @@ Widget _addButton() {
           style: TextStyle(
             color: Color(0xFF898989),
             fontSize: 10,
+            fontFamily: 'PretendardRegular',
           ),
         ),
       ),
