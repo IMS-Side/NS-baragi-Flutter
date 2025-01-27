@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/apparent_weather/modals/weatherInputModal.dart';
 import 'package:nsbaragi/apparent_weather/widgets/statisticCard.dart';
 import 'package:nsbaragi/apparent_weather/widgets/statisticWideCard.dart';
 
@@ -43,7 +44,12 @@ class Statistic extends StatelessWidget {
         StatisticWideCard(),
         SizedBox(height: 36),
         ElevatedButton(
-          onPressed: (){},
+          onPressed: (){
+            showDialog(
+                context: context,
+                builder: (context) { return WeatherInputModal(); }
+            );
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFF1A3761),
             elevation: 0,
