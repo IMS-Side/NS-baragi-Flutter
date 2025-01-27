@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nsbaragi/BackGround.dart';
+import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
 import 'main_page/screens/mainPageView.dart';
 import 'main_page/tabbar/tabbar.dart';
 
@@ -58,12 +59,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           IconButton(onPressed: null, icon: Icon(Icons.location_on))
         ],
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: const [
-            Text("Empty"),
-          ],
-        ),
+      endDrawer: const Drawer(
+        backgroundColor: Color(0xFFE4F1FF),
+        child: RegionWeather()
       ),
       body: Background(
           child: TabBarView(
