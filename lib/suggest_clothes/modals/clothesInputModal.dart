@@ -9,10 +9,9 @@ class ClothesInputModal extends StatelessWidget {
 
     final Size size = MediaQuery.of(context).size;
 
-    return Card(
-      color: Colors.transparent,
-      elevation: 0.0,
-      margin: EdgeInsets.zero,
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.symmetric(horizontal: size.width * 0.031),
 
       child: Container(
           width: size.width * 0.937,
@@ -72,7 +71,9 @@ class ClothesInputModal extends StatelessWidget {
                           alignment: Alignment(0.0, 1.0),
 
                           child: ElevatedButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFF1A3761),
                               elevation: 0,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/suggest_clothes/modals/clothesInputModal.dart';
 
 class Weather extends StatefulWidget {
   const Weather({super.key});
@@ -68,7 +69,12 @@ class _WeatherState extends State<Weather> {
                         top: 131,
                         right: 13,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) { return ClothesInputModal(); }
+                            );
+                          },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(
                               color: Colors.white,
