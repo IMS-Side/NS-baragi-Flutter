@@ -24,7 +24,7 @@ class _PresentWeatherState extends State<PresentWeather> {
 Widget _temper(){
   return const Column(
         children: [
-          SizedBox(height: 8,),
+          SizedBox(height: 24,),
           Text("정왕동",
             style: TextStyle(
                 fontSize: 13,
