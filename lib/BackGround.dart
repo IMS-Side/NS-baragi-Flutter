@@ -32,6 +32,33 @@ class Background extends StatelessWidget {
     const Color(0xFF415ABD),
     const Color(0x807088AC),
   ];
+  final night_stop = [
+    0.13, // 13% 위치
+    0.70, // 70% 위치
+    1.0,  // 100% 위치
+  ];
+  final cloudy = [
+    const Color(0xFF737896),
+    const Color(0xFF6B82A3),
+    const Color(0xFF82A7C0),
+    const Color(0x80E5E6E4),
+  ];
+  final cloudy_stop = [
+    0.13,
+    0.37,
+    0.71,
+    1.0,
+  ];
+  final snow = [
+    const Color(0xFFA0C7FB),
+    const Color(0xFFB8C5F0),
+    const Color(0xFFDCF5F8),
+  ];
+  final snow_stop = [
+    0.13,
+    0.87,
+    1.0,
+  ];
 
   //final background;
   // 조건문으로 시간에 따라서 background 변수에
