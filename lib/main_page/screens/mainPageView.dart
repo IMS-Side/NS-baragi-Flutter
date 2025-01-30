@@ -18,6 +18,7 @@ class _MainPageViewState extends State<MainPageView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          SizedBox(height: 60), //다른 Widget에도 추가해줘야함.
           PresentWeather(), // 현재 날씨
           SizedBox(height: 12), // 사이 간격
           DayWeather(), // 하루 날씨
