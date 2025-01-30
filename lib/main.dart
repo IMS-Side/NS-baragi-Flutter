@@ -14,7 +14,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -32,17 +31,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-
-  late TabController _tabController; //Tab을 위한 컨트롤러
+  late TabController _tabController;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _tabController.dispose();
     super.dispose();
   }
@@ -50,38 +48,54 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        elevation: 0, // 그림자 제거
-        backgroundColor: Color(0xFF4EB5F4),
-        bottom: TabBarScreen(tabController: _tabController),
-        //_tabController와 연결
-        actions: const [
-          IconButton(onPressed: null, icon: Icon(Icons.location_on))
-        ],
-      ),
       endDrawer: const Drawer(
         backgroundColor: Color(0xFFE4F1FF),
-        child: RegionWeather()
+        child: RegionWeather(),
       ),
-      body: Background(
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              Center(child: MainPageView()),
-              Center(child: ApparentWeatherView()), // 두 번째 탭
-              Center(child: SuggestClothesView()), // 세 번째 탭
-              //Center(child: Text("위치 설정 페이지")), // 네 번째 탭
-            ],
-          )
-      )
+      body: Stack(
+        children: [
+          //탭 뷰
+          Background(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                Center(child: MainPageView()),
+                Center(child: ApparentWeatherView()),
+                Center(child: SuggestClothesView()),
+              ],
+            ),
+          ),
+
+          //탭바
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.only(top: 15, left: 16, right: 16),
+              color: const Color(0xFF4EB5F4), //이 컬러를 계속 변경해줘야 하는 문제 존재.
+              child: Row(
+                children: [
+                  TabBarScreen(tabController: _tabController),
+                  const Spacer(),
+                  Builder(
+                    builder: (context) {
+                      return IconButton( //Icon누르면 Drawer 작동
+                        onPressed: () {
+                          Scaffold.of(context).openEndDrawer();
+                        },
+                        icon: const Icon(Icons.location_on, color: Colors.white),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
-
-
-
