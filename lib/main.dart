@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                         onPressed: () {
                           Scaffold.of(context).openEndDrawer();
                         },
-                        icon: const Icon(Icons.location_on, color: Colors.white),
+                        icon: const Icon(Icons.location_on, color: Colors.white, ),
                       );
                     },
                   ),

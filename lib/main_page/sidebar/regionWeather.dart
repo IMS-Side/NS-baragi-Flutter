@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/modals/addRegionModal.dart';
 
 import '../widgets/regionWetherCard.dart';
 
@@ -35,44 +36,76 @@ class _RegionWeatherState extends State<RegionWeather> {
   //   });
   // }
 
+  //지역 리스트의 항목을 삭제하는 함수
+  void _removeCard(int index){
+    setState(() {
+      cards.removeAt(index);
+    });
+  }
+
+  //모달 창을 띄우는 함수
+  void _showAddRegionModal(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true, //모달 높이 조절 기능
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (context) => const AddRegionModal(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         const SizedBox(height: 45),
-        ...cards,
+        ...List.generate(cards.length, (index){
+         return Dismissible(
+             key: UniqueKey(),
+             direction: DismissDirection.endToStart, // 오->왼 스와이트
+             onDismissed: (direction){
+               _removeCard(index);
+             },
+           background: Container(
+             color: Color(0x30467ABE),
+             alignment: Alignment.centerRight,
+             padding: const EdgeInsets.only(right: 20),
+             child: const Icon(Icons.delete, color: Colors.white,),
+           ),
+           child: cards[index],
+         );
+        }),
         const SizedBox(height: 22),
-        _addButton(),
+        _addButton(context),
       ],
+    );
+  }
+
+  Widget _addButton(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 180,
+        height: 30,
+        child: OutlinedButton(
+          onPressed: () => _showAddRegionModal(context),
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(
+              color: Color(0xFF898989),
+              width: 1.0,
+            ),
+          ),
+          child: const Text(
+            "지역 추가",
+            style: TextStyle(
+              color: Color(0xFF898989),
+              fontSize: 10,
+              fontFamily: 'PretendardRegular',
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
 
-Widget _addButton() {
-  return Center(
-    child: SizedBox(
-      width: 180,
-      height: 30,
-      child: OutlinedButton(
-        onPressed: () {
-          //지역 찾는 모달창 소환
-          //모달창에서 확인이 오면 addCard() 해서 ... 추가 할 수 있도록.
-        },
-        style: OutlinedButton.styleFrom(
-          side: const BorderSide(
-            color: Color(0xFF898989),
-            width: 1.0,
-          ),
-        ),
-        child: const Text(
-          "지역 추가",
-          style: TextStyle(
-            color: Color(0xFF898989),
-            fontSize: 10,
-            fontFamily: 'PretendardRegular',
-          ),
-        ),
-      ),
-    ),
-  );
-}
