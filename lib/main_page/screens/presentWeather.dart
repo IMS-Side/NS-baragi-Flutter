@@ -46,7 +46,7 @@ Widget _temper(){
               fontFamily: 'PretendardSemiBold',
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 5,),
           Text("최고:13° 최저:-88°",
             style: TextStyle(
                 fontSize: 12,
@@ -54,7 +54,7 @@ Widget _temper(){
               fontFamily: 'PretendardSemiBold',
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 15,),
         ],
   );
 }
@@ -77,7 +77,7 @@ Widget _agreement(){
               fontFamily: 'PretendardRegular',
             ),
           ),
-          const SizedBox(height: 5,),
+          const SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center, // Row의 children을 가운데 정렬
             children: [

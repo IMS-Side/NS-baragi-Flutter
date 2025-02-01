@@ -18,36 +18,35 @@ class _WeekCardState extends State<WeekCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //왼쪽 아이콘
-            Text(
-              "오늘",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontFamily: 'PretendardSemiBold',
-              ),
-            ),
-            //날씨 Icons
             Row(
               children: [
+                Text(
+                  "오늘",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontFamily: 'PretendardSemiBold',
+                  ),
+                ),
+                SizedBox(width: 20,),
                 Icon(
-                  Icons.cloud, //추후 변경예정
+                  Icons.cloud,
                   color: Colors.white,
                   size: 24,
                 ),
                 SizedBox(width: 8,),
                 Icon(
-                  Icons.cloud, //추후 변경예정
+                  Icons.cloud,
                   color: Colors.white,
                   size: 24,
                 ),
               ],
             ),
-            //오른쪽 텍스트
+
             Row(
               children: [
                 Icon(
-                  Icons.water_drop, // 추후 변경 예정
+                  Icons.water_drop,
                   color: Color(0xffC5D1DC),
                 ),
                 SizedBox(width: 4),
@@ -59,7 +58,7 @@ class _WeekCardState extends State<WeekCard> {
                     fontFamily: 'PretendardRegular',
                   ),
                 ),
-                SizedBox(width: 8), // 텍스트 간 간격
+                SizedBox(width: 8),
                 Text(
                   "5° / -2°",
                   style: TextStyle(

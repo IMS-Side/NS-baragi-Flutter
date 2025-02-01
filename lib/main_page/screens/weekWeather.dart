@@ -35,6 +35,8 @@ class _WeekWeatherState extends State<WeekWeather> {
             separatorBuilder: (context, index){
               return const Divider(
                 color: Color(0xFF8FC5E9),
+                indent: 8,
+                endIndent: 8,
               );
               },
           ),
