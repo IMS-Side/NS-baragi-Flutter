@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final double _tabBarHeight = 60;
 
   @override
   void initState() {
@@ -54,47 +55,51 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         backgroundColor: Color(0xFFE4F1FF),
         child: RegionWeather(),
       ),
-      body: Stack(
-        children: [
-          //탭 뷰
-          Background(
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                Center(child: MainPageView()),
-                Center(child: ApparentWeatherView()),
-                Center(child: SuggestClothesView()),
-              ],
-            ),
-          ),
-
-          //탭바
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.only(top: 15, left: 16, right: 16),
-              color: const Color(0xFF4EB5F4), //이 컬러를 계속 변경해줘야 하는 문제 존재.
-              child: Row(
-                children: [
-                  TabBarScreen(tabController: _tabController),
-                  const Spacer(),
-                  Builder(
-                    builder: (context) {
-                      return IconButton( //Icon누르면 Drawer 작동
-                        onPressed: () {
-                          Scaffold.of(context).openEndDrawer();
-                        },
-                        icon: const Icon(Icons.location_on, color: Colors.white, ),
-                      );
-                    },
-                  ),
-                ],
+      body: Background(
+          child: Stack(
+            children: [
+              //탭 뷰
+              Positioned(
+                top: _tabBarHeight,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: const [
+                    Center(child: MainPageView()),
+                    Center(child: ApparentWeatherView()),
+                    Center(child: SuggestClothesView()),
+                  ],
+                ),
               ),
-            ),
+              //탭바
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.only(top: 15, left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      TabBarScreen(tabController: _tabController),
+                      const Spacer(),
+                      Builder(
+                        builder: (context) {
+                          return IconButton( //Icon누르면 Drawer 작동
+                            onPressed: () {
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                            icon: const Icon(Icons.location_on, color: Colors.white, ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
       ),
     );
   }

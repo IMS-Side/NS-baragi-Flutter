@@ -12,8 +12,6 @@ class TabBarScreen extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         width: 240,
         height: 30,
-        //alignment: ,
-        color: Color(0xFF4EB5F4), //나중에 색깔 변경
         child: TabBar(
           controller: tabController,
           labelColor: Colors.white, // 탭 선택 시의 글자 색상
