@@ -40,7 +40,7 @@ class _DayWeatherState extends State<DayWeather> {
               itemCount: 12, // 총 아이템 수
               itemBuilder: (context, index) {
                 return const Padding(
-                  padding: EdgeInsets.only(right: 11.0),
+                  padding: EdgeInsets.only(right: 24.0),
                   child: DayCard(), // 호출
               );
             },
