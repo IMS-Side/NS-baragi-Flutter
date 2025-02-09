@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:nsbaragi/BackGround.dart';
 import 'package:nsbaragi/apparent_weather/screens/apparentWeatherView.dart';
 import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
@@ -7,7 +8,8 @@ import 'package:nsbaragi/suggest_clothes/screens/suggestClothesView.dart';
 import 'main_page/screens/mainPageView.dart';
 import 'main_page/tabbar/tabbar.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'assets/config/.env'); //환경 변수 로드
   runApp(const MyApp());
 }
 

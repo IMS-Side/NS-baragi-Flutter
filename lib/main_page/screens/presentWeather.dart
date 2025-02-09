@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/services/shortWeatherService.dart';
+import 'package:nsbaragi/main_page/services/locationService.dart';
 
 class PresentWeather extends StatefulWidget {
   const PresentWeather({super.key});
@@ -8,38 +9,83 @@ class PresentWeather extends StatefulWidget {
   State<PresentWeather> createState() => _PresentWeatherState();
 }
 
-
 class _PresentWeatherState extends State<PresentWeather> {
+
+  String weatherDescrition = "오늘 날씨 정보를 불러옵니다...";
+  String temperature = "";
+  String city = "";
+  String tempMax = "";
+  String tempMin = "";
+
+  final Shortweatherservice shortweatherservice = Shortweatherservice();
+  final LocationService locationService = LocationService();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchWeather();
+  }
+
+  Future<void> fetchWeather() async{
+    final position = await locationService.getCurrentLocation();
+
+    if(position != null){
+      setState(() async {
+        final weatherData = await shortweatherservice.getWeather(position.latitude, position.longitude);
+        if(weatherData != null){
+          setState(() {
+            weatherDescrition =  weatherData["current"]["weather"][0]["description"];
+            temperature = "${weatherData["current"]["temp"].round()}°C";
+            city = "현재 위치"; //API에 도시 이름이 없음.
+            tempMax = "${weatherData["daily"][0]["temp"]["max"].round()}°";
+            tempMin = "${weatherData["daily"][0]["temp"]["min"].round()}°";
+            //수정 해야함.
+          });
+        }else{
+          setState(() {
+            weatherDescrition = "날씨 정보를 가져올 수 없습니다.";
+          });
+        }
+      });
+    }else{
+      setState(() {
+        weatherDescrition = "위치 정보를 가져올 수 없습니다.";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _temper(),//온도를 나타내는 위젯 호출
+        _temper(weatherDescrition, temperature, city, tempMax, tempMin),//온도를 나타내는 위젯 호출
         _agreement(), //동의를 나타내는 위젯 호출
       ],
     );
   }
 }
 
-Widget _temper(){
-  return const Column(
+Widget _temper(String description, String temp, String city, String tempMax, String tempMin){
+
+  return Column(
         children: [
           SizedBox(height: 24,),
-          Text("정왕동",
+          Text( city ,
             style: TextStyle(
               fontSize: 13,
               color: Colors.white,
               fontFamily: 'PretendardSemiBold',
             ),
           ),
-          Text("12°",
+          Text( temp,
             style: TextStyle(
                 fontSize: 64,
                 color: Colors.white,
               fontFamily: 'PretendardRegular',
             ),
           ),
-          Text("맑음",
+          Text( description,
             style: TextStyle(
                 fontSize: 12,
                 color: Colors.white,
@@ -47,7 +93,7 @@ Widget _temper(){
             ),
           ),
           SizedBox(height: 5,),
-          Text("최고:13° 최저:-88°",
+          Text("최고: $tempMax 최저: $tempMin",
             style: TextStyle(
                 fontSize: 12,
                 color: Colors.white,

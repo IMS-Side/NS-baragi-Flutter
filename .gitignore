@@ -16,6 +16,11 @@ migrate_working_dir/
 *.iws
 .idea/
 
+#API_KEYS
+# .gitignore 파일에 추가
+.env
+assets/config/.env
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
