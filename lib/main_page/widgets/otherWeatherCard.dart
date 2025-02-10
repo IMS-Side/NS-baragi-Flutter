@@ -1,33 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class OtherWeatherCard extends StatefulWidget {
-  const OtherWeatherCard({super.key});
+class OtherWeatherCard extends StatelessWidget {
+  final String title; //카드 제목
+  final String value; //카드 내용
+  final IconData icon;
 
-  @override
-  State<OtherWeatherCard> createState() => _OtherWeatherCardState();
-}
+  const OtherWeatherCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.icon,
+  });
 
-class _OtherWeatherCardState extends State<OtherWeatherCard> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
+    return Container(
         width: 190,
         height: 80,
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: const Color(0x40467ABE), // 배경색 (파란색)
+          color: const Color(0x40467ABE),
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: const Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //아이콘
             Icon(
-              Icons.air,
+              icon,
               color: Colors.white,
-              size: 24,
+              size: 20,
             ),
             SizedBox(width: 8,),
             //텍스트
@@ -35,26 +38,26 @@ class _OtherWeatherCardState extends State<OtherWeatherCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "미세먼지",
+                  title,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 13,
                     fontFamily: 'PretendardRegular',
                   ),
                 ),
+                SizedBox(height: 4,),
                 Text(
-                  "보통 (78µg/m³)",
+                  value,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12,
-                    fontFamily: 'PretendardRegular',
+                    fontSize: 15,
+                    fontFamily: 'PretendardSemiBold',
                   ),
                 ),
               ],
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

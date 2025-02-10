@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:nsbaragi/BackGround.dart';
 import 'package:nsbaragi/apparent_weather/screens/apparentWeatherView.dart';
 import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
