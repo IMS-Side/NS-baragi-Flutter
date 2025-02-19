@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:nsbaragi/BackGround.dart';
 import 'package:nsbaragi/apparent_weather/screens/apparentWeatherView.dart';
 import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
@@ -10,7 +11,9 @@ import 'main_page/screens/mainPageView.dart';
 import 'main_page/tabbar/tabbar.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 필수: Flutter 엔진 초기화
   await dotenv.load(fileName: 'assets/config/.env'); //환경 변수 로드
+  await initializeDateFormatting('ko_KR', null); //
   runApp(const MyApp());
 }
 
