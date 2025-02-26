@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 
 class AddRegionModal extends StatefulWidget {
@@ -25,7 +26,7 @@ class _AddRegionModalState extends State<AddRegionModal> {
   Future<bool> _initializeNaverMap() async {
     try {
       await NaverMapSdk.instance.initialize(
-        clientId: '클라id',
+        clientId: dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '',
         onAuthFailed: (error) => log("네이버맵 인증 오류: $error", name: "onAuthFailed"),
       );
       return true;
@@ -49,8 +50,8 @@ class _AddRegionModalState extends State<AddRegionModal> {
         }
 
         return Container(
-          width: 386,
           height: 576,
+          clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             color: Colors.white,
