@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:nsbaragi/main_page/services/naverMapService.dart';
 
 class AddRegionModal extends StatefulWidget {
   const AddRegionModal({super.key});
@@ -14,32 +11,26 @@ class AddRegionModal extends StatefulWidget {
 }
 
 class _AddRegionModalState extends State<AddRegionModal> {
-  late Future<bool> _naverMapInitFuture;
-  final Completer<NaverMapController> _mapControllerCompleter = Completer();
+  final NaverMapService _naverMapService = NaverMapService();
+  String _currentAddress = "위치정보를 가져오는 중 ...";
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    _naverMapInitFuture = _initializeNaverMap();
+    _getCrntAddress();
   }
 
-  Future<bool> _initializeNaverMap() async {
-    try {
-      await NaverMapSdk.instance.initialize(
-        clientId: dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '',
-        onAuthFailed: (error) => log("네이버맵 인증 오류: $error", name: "onAuthFailed"),
-      );
-      return true;
-    } catch (e) {
-      log("네이버 맵 초기화 실패: $e", name: "NaverMapInit");
-      return false;
-    }
+  void _getCrntAddress() async {
+    String? address = await _naverMapService.getCrntAddress();
+    setState(() {
+      _currentAddress = address ?? "주소를 가져올 수 없습니다.";
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: _naverMapInitFuture,
+      future: _naverMapService.naverMapInitFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator()); // 초기화 중 로딩 표시
@@ -65,7 +56,7 @@ class _AddRegionModalState extends State<AddRegionModal> {
                   consumeSymbolTapEvents: false,
                 ),
                 onMapReady: (controller) {
-                  _mapControllerCompleter.complete(controller);
+                  _naverMapService.setMapController(controller);
                   log("네이버 맵 로딩 완료", name: "onMapReady");
                 },
               ),
@@ -124,22 +115,23 @@ class _AddRegionModalState extends State<AddRegionModal> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Row(
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // ✅ 현재 위치 주소 표시
                               Text(
-                                "십정동",
-                                style: TextStyle(
+                                _currentAddress,
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontFamily: 'PretendardRegular',
                                 ),
                               ),
-                              SizedBox(height: 6),
-                              Text(
-                                "인천 부평구, 대한민국",
+                              const SizedBox(height: 6),
+                              const Text(
+                                "현재 위치",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Color(0xff666666),
@@ -148,8 +140,8 @@ class _AddRegionModalState extends State<AddRegionModal> {
                               ),
                             ],
                           ),
-                          Spacer(),
-                          Column(
+                          const Spacer(),
+                          const Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
@@ -172,7 +164,6 @@ class _AddRegionModalState extends State<AddRegionModal> {
                         ],
                       ),
                       const SizedBox(height: 10),
-
                       SizedBox(
                         width: double.infinity,
                         child: TextButton(
