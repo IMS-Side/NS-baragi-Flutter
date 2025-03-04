@@ -36,18 +36,18 @@ class NaverMapService{
   }
 
   //현재 위치를 주소로 변환
-  Future<String?> getCrntAddress() async {
+  Future<List<String>?> getCrntAddress() async {
     Position? position = await _locationService.getCurrentLocation();
     if(position != null){
       return await reverseGeocode(position.latitude, position.longitude);
     }
-    return "위치 정보를 가져올 수 없습니다.";
+    return null; // 위치 정보 가져오기 실패.
   }
 
   //좌표 -> 주소 변환
-  Future<String?> reverseGeocode(double latitude, double longitude) async {
-    final String clientId = dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '' ;
-    final String clientSecret = dotenv.env['NAVER_MAP_CLIENT_SECRET'] ?? '' ;
+  Future<List<String>?> reverseGeocode(double latitude, double longitude) async {
+    final String clientId = dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '';
+    final String clientSecret = dotenv.env['NAVER_MAP_CLIENT_SECRET'] ?? '';
 
     final String url =
         'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=$longitude,$latitude&output=json';
@@ -57,21 +57,42 @@ class NaverMapService{
       headers: {
         'X-NCP-APIGW-API-KEY-ID': clientId,
         'X-NCP-APIGW-API-KEY': clientSecret,
-      }
+      },
     );
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+
       if (data['results'].isNotEmpty) {
-        return data['results'][0]['region']['area1']['name'] +
-            " " +
-            data['results'][0]['region']['area2']['name'] +
-            " " +
-            data['results'][0]['region']['area3']['name'];
+
+        String countryCode = data['results'][0]['region']['area0']['name'];
+
+        Map<String, String> countryNames = {
+          "kr": "대한민국",
+          "us": "미국",
+          "jp": "일본",
+          "cn": "중국",
+          "fr": "프랑스",
+          "de": "독일",
+          "gb": "영국",
+          "ru": "러시아",
+          "in": "인도",
+          "br": "브라질",
+        };
+
+        String countryName = countryNames[countryCode] ?? countryCode;
+
+        return [
+          countryName, // 나라
+          data['results'][0]['region']['area1']['name'], // 시/도
+          data['results'][0]['region']['area2']['name'], // 시/군/구
+          data['results'][0]['region']['area3']['name']  // 읍/면/동
+        ];
       }
     }
     return null;
   }
+
 
   //주소 -> 좌표 변환
   Future<Map<String, dynamic>?> geocodeAddress(String addr) async{

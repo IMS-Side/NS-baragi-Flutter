@@ -73,7 +73,7 @@ class ShortWeatherController extends GetxController {
   }
 
   //자외선 지수 세기
-  void indexUvi(int uvi){
+  void indexUvi(double uvi){
     if(uvi < 3){
       crnt_uvi.value = "낮음";
     }
@@ -101,7 +101,7 @@ class ShortWeatherController extends GetxController {
         city.value = "현재 위치"; // 추후 추가 예정
         tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
         tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
-        int uvi = weatherData["current"]["uvi"];
+        double uvi = weatherData["current"]["uvi"];
         indexUvi(uvi);
 
         weeklyWeather.value = List.generate(7, (index) {

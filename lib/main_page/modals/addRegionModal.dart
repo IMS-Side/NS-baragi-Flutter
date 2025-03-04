@@ -1,36 +1,19 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
-import 'package:nsbaragi/main_page/services/naverMapService.dart';
+import 'package:get/get.dart';
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 
-class AddRegionModal extends StatefulWidget {
-  const AddRegionModal({super.key});
 
-  @override
-  State<AddRegionModal> createState() => _AddRegionModalState();
-}
+class AddRegionModal extends StatelessWidget {
+  AddRegionModal({super.key});
 
-class _AddRegionModalState extends State<AddRegionModal> {
-  final NaverMapService _naverMapService = NaverMapService();
-  String _currentAddress = "위치정보를 가져오는 중 ...";
-
-  @override
-  void initState(){
-    super.initState();
-    _getCrntAddress();
-  }
-
-  void _getCrntAddress() async {
-    String? address = await _naverMapService.getCrntAddress();
-    setState(() {
-      _currentAddress = address ?? "주소를 가져올 수 없습니다.";
-    });
-  }
+  final GeoMapController _geoMapController = Get.put(GeoMapController());
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
-      future: _naverMapService.naverMapInitFuture,
+      future: _geoMapController.naverMapService.naverMapInitFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator()); // 초기화 중 로딩 표시
@@ -49,15 +32,16 @@ class _AddRegionModalState extends State<AddRegionModal> {
           ),
           child: Stack(
             children: [
+              //네이버 맵
               NaverMap(
-                options: const NaverMapViewOptions(
-                  indoorEnable: true,
-                  locationButtonEnable: false,
-                  consumeSymbolTapEvents: false,
-                ),
-                onMapReady: (controller) {
-                  _naverMapService.setMapController(controller);
-                  log("네이버 맵 로딩 완료", name: "onMapReady");
+               options: const NaverMapViewOptions(
+                 indoorEnable: true,
+                 locationButtonEnable: false,
+                 consumeSymbolTapEvents: false,
+               ),
+                onMapReady: (controller){
+                 _geoMapController.setMapController(controller);
+                 log("네이버 맵 로딩 완료", name: "onMapReady");
                 },
               ),
 
@@ -121,23 +105,23 @@ class _AddRegionModalState extends State<AddRegionModal> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // ✅ 현재 위치 주소 표시
-                              Text(
-                                _currentAddress,
+
+                              Obx(() => Text(
+                               _geoMapController.region3.value,
+                               style: const TextStyle(
+                                 fontSize: 16,
+                                 fontFamily: 'PretendardSemiBold',
+                               ),
+                              )),
+                              SizedBox(height: 6),
+                              Obx(()=> Text(
+                                _geoMapController.region.value,
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'PretendardRegular',
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              const Text(
-                                "현재 위치",
-                                style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize:  13,
                                   color: Color(0xff666666),
                                   fontFamily: 'PretendardRegular',
                                 ),
-                              ),
+                              ))
                             ],
                           ),
                           const Spacer(),

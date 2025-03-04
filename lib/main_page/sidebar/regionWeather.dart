@@ -51,7 +51,7 @@ class _RegionWeatherState extends State<RegionWeather> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        builder: (context) => const AddRegionModal(),
+        builder: (context) => AddRegionModal(),
     );
   }
 
