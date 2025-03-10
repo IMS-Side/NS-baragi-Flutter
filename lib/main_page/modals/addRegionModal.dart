@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:get/get.dart';
 import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 
 
 class AddRegionModal extends StatelessWidget {
-  AddRegionModal({super.key});
+  final Function(String region, String temperature, IconData weatherIcon) onRegionSelected;
+
+  AddRegionModal({super.key, required this.onRegionSelected});
 
   final GeoMapController _geoMapController = Get.put(GeoMapController());
+  final ShortWeatherController _shortWeatherController = Get.put(ShortWeatherController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,7 @@ class AddRegionModal extends StatelessWidget {
                ),
                 onMapReady: (controller){
                  _geoMapController.setMapController(controller);
+                 _shortWeatherController.fetchWeather();
                  log("네이버 맵 로딩 완료", name: "onMapReady");
                 },
               ),
@@ -63,13 +68,21 @@ class AddRegionModal extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const TextField(
+                  child: TextField(
+                    onSubmitted: (value){
+                      _geoMapController.searchAddress(value);
+                    },
                     decoration: InputDecoration(
                       hintText: '검색',
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(vertical: 14),
-                      prefixIcon: Icon(Icons.search, size: 20),
-                      prefixIconConstraints: BoxConstraints(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                      prefixIcon: IconButton(
+                        icon: const Icon(Icons.search, size: 20),
+                        onPressed: () {
+                          _geoMapController.searchAddress(_geoMapController.searchText.value);
+                        },
+                      ),
+                      prefixIconConstraints: const BoxConstraints(
                         minWidth: 40,
                       ),
                     ),
@@ -125,11 +138,11 @@ class AddRegionModal extends StatelessWidget {
                             ],
                           ),
                           const Spacer(),
-                          const Column(
+                          Obx(() => Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                "2°",
+                                _shortWeatherController.temperature.value,
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontFamily: 'PretendardSemiBold',
@@ -137,7 +150,7 @@ class AddRegionModal extends StatelessWidget {
                               ),
                               SizedBox(height: 1),
                               Text(
-                                "5° / 4°",
+                                "${_shortWeatherController.tempMax.value} / ${_shortWeatherController.tempMin.value}",
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Color(0xff666666),
@@ -145,14 +158,21 @@ class AddRegionModal extends StatelessWidget {
                               ),
                             ],
                           ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
                       SizedBox(
                         width: double.infinity,
                         child: TextButton(
-                          onPressed: () {
-                            // 버튼 클릭 시 카드 추가
+                          onPressed: () async {
+                            await _geoMapController.searchAddress(_geoMapController.searchText.value);
+
+                            onRegionSelected(
+                              _geoMapController.region3.value,
+                              _shortWeatherController.temperature.value,
+                              _shortWeatherController.crntIcon.value,
+                            );
                           },
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.black,

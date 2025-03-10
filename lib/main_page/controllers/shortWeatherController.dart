@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/services/naverMapService.dart';
 import 'package:nsbaragi/main_page/services/shortWeatherService.dart';
 import 'package:nsbaragi/main_page/services/locationService.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 class ShortWeatherController extends GetxController {
   final Shortweatherservice shortweatherservice = Shortweatherservice();
   final LocationService locationService = LocationService();
+  final NaverMapService naverMapService = NaverMapService();
 
   //current
   var weatherDescription = "오늘 날씨 정보를 불러옵니다...".obs; //날씨 상태
@@ -14,6 +16,7 @@ class ShortWeatherController extends GetxController {
   var city = "".obs; //장소
   var tempMax = "".obs; //최고 온도
   var tempMin = "".obs; //최저 온도
+  var crntIcon = CupertinoIcons.sun_max_fill.obs;
 
   var crnt_uvi = "".obs; //자외선 지수
   var crnt_rain = "".obs; //현재 강수량
@@ -91,35 +94,55 @@ class ShortWeatherController extends GetxController {
     }
   }
 
-  Future<void> fetchWeather() async {
-    final position = await locationService.getCurrentLocation();
-    if (position != null) {
-      final weatherData = await shortweatherservice.getWeather(position.latitude, position.longitude);
-      if (weatherData != null) {
-        weatherDescription.value = weatherData["current"]["weather"][0]["description"];
-        temperature.value = "${weatherData["current"]["temp"].round()}°C";
-        city.value = "현재 위치"; // 추후 추가 예정
-        tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
-        tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
-        double uvi = weatherData["current"]["uvi"];
-        indexUvi(uvi);
+  //현재 날씨
+  Future<void> fetchWeather([double? latitude, double? longitude])  async {
+    double lat, lng;
 
-        weeklyWeather.value = List.generate(7, (index) {
-          return {
-            "date": DateTime.fromMillisecondsSinceEpoch(weatherData["daily"][index]["dt"] * 1000),
-            "min_temp": "${weatherData["daily"][index]["temp"]["min"].round()}°C",
-            "max_temp": "${weatherData["daily"][index]["temp"]["max"].round()}°C",
-            "weather": weatherData["daily"][index]["weather"][0]["description"],
-            "icon": weatherIcon(weatherData["daily"][index]["weather"][0]["icon"]),
-            "pop": (weatherData["daily"][index]["pop"] ?? 0) * 100
-          };
-        });
-      } else {
-        weatherDescription.value = "날씨 정보를 가져올 수 없습니다.";
-      }
+    // 현재 위치를 사용할지, 검색한 위치를 사용할지 결정
+    if (latitude != null && longitude != null) {
+      lat = latitude;
+      lng = longitude;
     } else {
-      weatherDescription.value = "위치 정보를 가져올 수 없습니다.";
+      final position = await locationService.getCurrentLocation();
+      if (position == null) {
+        weatherDescription.value = "위치 정보를 가져올 수 없습니다.";
+        return;
+      }
+      lat = position.latitude;
+      lng = position.longitude;
+    }
+
+    // 날씨 데이터 및 주소 가져오기
+    final weatherData = await shortweatherservice.getWeather(lat, lng);
+    final List<String>? address = await naverMapService.reverseGeocode(lat, lng);
+
+    if (weatherData != null) {
+      weatherDescription.value = weatherData["current"]["weather"][0]["description"];
+      temperature.value = "${weatherData["current"]["temp"].round()}°C";
+      city.value = "${address?[1]} ${address?[2]}";
+      tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
+      tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
+      crntIcon.value = weatherIcon(weatherData["current"]["weather"][0]["icon"]);
+
+      double uvi = weatherData["current"]["uvi"];
+      indexUvi(uvi);
+
+      weeklyWeather.value = List.generate(7, (index) {
+        return {
+          "date": DateTime.fromMillisecondsSinceEpoch(weatherData["daily"][index]["dt"] * 1000),
+          "min_temp": "${weatherData["daily"][index]["temp"]["min"].round()}°C",
+          "max_temp": "${weatherData["daily"][index]["temp"]["max"].round()}°C",
+          "weather": weatherData["daily"][index]["weather"][0]["description"],
+          "icon": weatherIcon(weatherData["daily"][index]["weather"][0]["icon"]),
+          "pop": (weatherData["daily"][index]["pop"] ?? 0) * 100
+        };
+      });
+
+      update(); //GetX 상태 업데이트
+    } else {
+      weatherDescription.value = "날씨 정보를 가져올 수 없습니다.";
     }
   }
+
 
 }

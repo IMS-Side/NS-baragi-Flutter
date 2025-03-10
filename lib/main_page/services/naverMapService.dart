@@ -11,11 +11,14 @@ class NaverMapService{
   late Future<bool> naverMapInitFuture;
   final Completer<NaverMapController> mapControllerCompleter = Completer();
   final LocationService _locationService = LocationService(); //위치 서비스
+  final String clientId = dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '';
+  final String clientSecret = dotenv.env['NAVER_MAP_CLIENT_SECRET'] ?? '';
 
   NaverMapService(){
     naverMapInitFuture = _initializeNaverMap();
   }
 
+  //네이버 맵 초기화
   Future<bool> _initializeNaverMap() async {
     try{
       await NaverMapSdk.instance.initialize(
@@ -46,9 +49,6 @@ class NaverMapService{
 
   //좌표 -> 주소 변환
   Future<List<String>?> reverseGeocode(double latitude, double longitude) async {
-    final String clientId = dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '';
-    final String clientSecret = dotenv.env['NAVER_MAP_CLIENT_SECRET'] ?? '';
-
     final String url =
         'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=$longitude,$latitude&output=json';
 
@@ -93,12 +93,8 @@ class NaverMapService{
     return null;
   }
 
-
   //주소 -> 좌표 변환
   Future<Map<String, dynamic>?> geocodeAddress(String addr) async{
-    final String clientId = dotenv.env['NAVER_MAP_CLIENT_ID'] ?? '';
-    final String clientSecret = dotenv.env['NAVER_MAP_CLIENT_SECRET'] ?? '';
-
     final String url = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$addr';
 
     final response = await http.get(
@@ -121,5 +117,53 @@ class NaverMapService{
     return null;
   }
 
+  //주소 검색 기능
+  Future<Map<String, dynamic>?> searchAddress(String query) async {
+    final String encodeQuery = Uri.encodeQueryComponent(query); //인코딩 하니 해결됨.
+    final String url =
+        'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$encodeQuery';
 
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'X-NCP-APIGW-API-KEY-ID': clientId,
+          'X-NCP-APIGW-API-KEY': clientSecret,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic>? data = jsonDecode(response.body);
+
+        if (data == null || !data.containsKey('addresses') || data['addresses'] == null) {
+          log("API 응답에 'addresses' 키가 없습니다.", name: "NaverMapService");
+          return null;
+        }
+
+        final List<dynamic> addresses = data['addresses'];
+
+        if (addresses.isEmpty) {
+          log("검색된 주소가 없습니다. API 응답: ${jsonEncode(data)}", name: "NaverMapService"); // ✅ 전체 응답 출력
+          return null;
+        }
+
+        final Map<String, dynamic> firstAddress = addresses[0];
+        final double lat = double.parse(firstAddress['y']);
+        final double lng = double.parse(firstAddress['x']);
+        final String address = firstAddress['roadAddress'] ?? firstAddress['jibunAddress'] ?? "알 수 없음";
+
+        return {
+          "latitude": lat,
+          "longitude": lng,
+          "address": address,
+        };
+      } else {
+        log(" 네이버 Geocoding API 응답 오류: ${response.statusCode}", name: "NaverMapService");
+      }
+    } catch (e) {
+      log("searchAddress() 오류 발생: $e", name: "NaverMapService");
+    }
+
+    return null;
+  }
 }

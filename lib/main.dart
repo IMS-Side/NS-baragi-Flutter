@@ -13,7 +13,7 @@ import 'main_page/tabbar/tabbar.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 필수: Flutter 엔진 초기화
   await dotenv.load(fileName: 'assets/config/.env'); //환경 변수 로드
-  await initializeDateFormatting('ko_KR', null); //
+  await initializeDateFormatting('ko_KR', null);
   runApp(const MyApp());
 }
 
@@ -57,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     return Scaffold(
-      endDrawer: const Drawer(
-        backgroundColor: Color(0xFFE4F1FF),
+      endDrawer: Drawer(
+        backgroundColor: const Color(0xFFE4F1FF),
         child: RegionWeather(),
       ),
       body: Background(

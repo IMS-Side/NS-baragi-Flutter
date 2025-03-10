@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 
 class RegionWeatherCard extends StatelessWidget {
   final bool hasIcon;
+  final String region;
+  final String temperature;
+  final IconData weatherIcon;
 
-  const RegionWeatherCard({super.key, this.hasIcon = false});
+  const RegionWeatherCard({
+    super.key,
+    this.hasIcon = false,
+    required this.region,
+    required this.temperature,
+    required this.weatherIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +32,13 @@ class RegionWeatherCard extends StatelessWidget {
                 )
                     : null,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 175,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "정왕동",
+                      region,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -39,13 +48,13 @@ class RegionWeatherCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          Icons.cloud_outlined,
+                          weatherIcon,
                           color: Colors.black,
                           size: 18,
                         ),
                         SizedBox(width: 4),
                         Text(
-                          "88°",
+                          temperature,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
