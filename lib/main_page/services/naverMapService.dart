@@ -39,7 +39,7 @@ class NaverMapService{
   }
 
   //현재 위치를 주소로 변환
-  Future<List<String>?> getCrntAddress() async {
+  Future<Map<String, dynamic>?> getCrntAddress() async {
     Position? position = await _locationService.getCurrentLocation();
     if(position != null){
       return await reverseGeocode(position.latitude, position.longitude);
@@ -48,7 +48,7 @@ class NaverMapService{
   }
 
   //좌표 -> 주소 변환
-  Future<List<String>?> reverseGeocode(double latitude, double longitude) async {
+  Future<Map<String, dynamic>?> reverseGeocode(double latitude, double longitude) async {
     final String url =
         'https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=$longitude,$latitude&output=json';
 
@@ -64,8 +64,10 @@ class NaverMapService{
       final data = jsonDecode(response.body);
 
       if (data['results'].isNotEmpty) {
+        final regionData = data['results'][0]['region'];
 
-        String countryCode = data['results'][0]['region']['area0']['name'];
+        String countryCode = regionData['area0']['name'];
+        String admCode = data['results'][0]['code']['id'] ?? "알 수 없음"; //행정동 코드 추가
 
         Map<String, String> countryNames = {
           "kr": "대한민국",
@@ -82,12 +84,13 @@ class NaverMapService{
 
         String countryName = countryNames[countryCode] ?? countryCode;
 
-        return [
-          countryName, // 나라
-          data['results'][0]['region']['area1']['name'], // 시/도
-          data['results'][0]['region']['area2']['name'], // 시/군/구
-          data['results'][0]['region']['area3']['name']  // 읍/면/동
-        ];
+        return {
+          "country": countryName, // 나라
+          "region1": regionData['area1']['name'], // 시/도
+          "region2": regionData['area2']['name'], // 시/군/구
+          "region3": regionData['area3']['name'], // 읍/면/동
+          "admCode": admCode //행정동 코드
+        };
       }
     }
     return null;
@@ -143,7 +146,7 @@ class NaverMapService{
         final List<dynamic> addresses = data['addresses'];
 
         if (addresses.isEmpty) {
-          log("검색된 주소가 없습니다. API 응답: ${jsonEncode(data)}", name: "NaverMapService"); // ✅ 전체 응답 출력
+          log("검색된 주소가 없습니다. API 응답: ${jsonEncode(data)}", name: "NaverMapService");
           return null;
         }
 
@@ -152,10 +155,14 @@ class NaverMapService{
         final double lng = double.parse(firstAddress['x']);
         final String address = firstAddress['roadAddress'] ?? firstAddress['jibunAddress'] ?? "알 수 없음";
 
+        final Map<String, dynamic>? reverseData = await reverseGeocode(lat, lng);
+        final String admCode = reverseData?["admCode"] ?? "알 수 없음";
+
         return {
           "latitude": lat,
           "longitude": lng,
           "address": address,
+          "admCode" : admCode,
         };
       } else {
         log(" 네이버 Geocoding API 응답 오류: ${response.statusCode}", name: "NaverMapService");
