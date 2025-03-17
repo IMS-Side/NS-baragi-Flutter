@@ -76,17 +76,32 @@ class ShortWeatherController extends GetxController {
   }
 
   //자외선 지수 세기
-  void indexUvi(double uvi){
-    if(uvi < 3){
+  void indexUvi(dynamic uvi){
+    double uviValue;
+
+    //int -> double 변환
+    if (uvi is int) {
+      uviValue = uvi.toDouble();
+    }
+    // String일 경우 변환 시도
+    else if (uvi is String) {
+      uviValue = double.tryParse(uvi) ?? 0.0;
+    }
+    // 기본적으로 double로 처리
+    else {
+      uviValue = uvi;
+    }
+
+    if(uviValue < 3){
       crnt_uvi.value = "낮음";
     }
-    else if(uvi < 6){
+    else if(uviValue < 6){
       crnt_uvi.value = "보통";
     }
-    else if(uvi < 8){
+    else if(uviValue < 8){
       crnt_uvi.value = "높음";
     }
-    else if(uvi < 11){
+    else if(uviValue < 11){
       crnt_uvi.value = "매우 높음";
     }
     else{
@@ -114,17 +129,19 @@ class ShortWeatherController extends GetxController {
 
     // 날씨 데이터 및 주소 가져오기
     final weatherData = await shortweatherservice.getWeather(lat, lng);
-    final List<String>? address = await naverMapService.reverseGeocode(lat, lng);
+    final Map<String, dynamic>? address = await naverMapService.reverseGeocode(lat, lng);
 
     if (weatherData != null) {
       weatherDescription.value = weatherData["current"]["weather"][0]["description"];
       temperature.value = "${weatherData["current"]["temp"].round()}°C";
-      city.value = "${address?[1]} ${address?[2]}";
+      city.value = "${address?["region1"]} ${address?["region2"]}";
       tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
       tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
       crntIcon.value = weatherIcon(weatherData["current"]["weather"][0]["icon"]);
 
-      double uvi = weatherData["current"]["uvi"];
+      double uvi = weatherData["current"]["uvi"] is int
+          ? (weatherData["current"]["uvi"] as int).toDouble()
+          : weatherData["current"]["uvi"];
       indexUvi(uvi);
 
       weeklyWeather.value = List.generate(7, (index) {

@@ -29,7 +29,7 @@ class RegionWeatherController extends GetxController {
 
     crntLocation.value = geoMapController.region3.value;
     crntTemp.value = shortWeatherController.temperature.value;
-    crntIcon.value = shortWeatherController.crntIcon as IconData;
+    crntIcon.value = shortWeatherController.crntIcon.value;
   }
 
   void addCard(String region, String temperature, IconData weatherIcon){

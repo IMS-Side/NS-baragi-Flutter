@@ -5,7 +5,7 @@ import '../widgets/weekWeatherCard.dart';
 import 'package:intl/intl.dart';
 
 class WeekWeather extends StatelessWidget {
-  final ShortWeatherController weatherController = Get.find<ShortWeatherController>();
+  final ShortWeatherController weatherController = Get.put(ShortWeatherController());
 
   WeekWeather({super.key});
 
