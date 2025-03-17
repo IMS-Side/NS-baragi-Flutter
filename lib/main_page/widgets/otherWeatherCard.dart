@@ -23,34 +23,44 @@ class OtherWeatherCard extends StatelessWidget {
           color: const Color(0x40467ABE),
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //아이콘
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 20,
-            ),
-            SizedBox(width: 8,),
-            //텍스트
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontFamily: 'PretendardRegular',
-                  ),
+                //아이콘
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 20,
                 ),
-                SizedBox(height: 4,),
+                SizedBox(width: 8,),
+                //텍스트
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontFamily: 'PretendardRegular',
+                      ),
+                    ),
+
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 7,),
+            Row(
+              children: [
+                SizedBox(width: 10,),
                 Text(
                   value,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 16,
                     fontFamily: 'PretendardSemiBold',
                   ),
                 ),
