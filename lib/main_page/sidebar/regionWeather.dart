@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nsbaragi/main_page/controllers/regionWeatherController.dart';
-import 'package:nsbaragi/main_page/modals/addRegionModal.dart';
+import 'package:nsbaragi/main_page/sidebar/modals/addRegionModal.dart';
+
 import '../widgets/regionWetherCard.dart';
 
 class RegionWeather extends StatelessWidget {
