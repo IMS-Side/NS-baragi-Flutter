@@ -134,12 +134,12 @@ class ShortWeatherController extends GetxController {
 
     if (weatherData != null) {
       weatherDescription.value = weatherData["current"]["weather"][0]["description"];
-      temperature.value = "${weatherData["current"]["temp"].round()}°C";
+      temperature.value = "${weatherData["current"]["temp"].round()}°";
       city.value = "${address?["region1"]} ${address?["region2"]}";
       tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
       tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
       crntIcon.value = weatherIcon(weatherData["current"]["weather"][0]["icon"]);
-      feelTemp.value = "${weatherData["current"]["feels_like"].round()}°C";
+      feelTemp.value = "${weatherData["current"]["feels_like"].round()}°";
 
       double uvi = weatherData["current"]["uvi"] is int
           ? (weatherData["current"]["uvi"] as int).toDouble()
