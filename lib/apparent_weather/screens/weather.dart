@@ -18,7 +18,7 @@ class _WeatherState extends State<Weather> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Obx(() => Text(
-          shortWeatherController.city.value, // RxString 사용
+          shortWeatherController.city.value,
           style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 13, height: 1.7, color: Colors.white),
         )),
         SizedBox(height: 9),
