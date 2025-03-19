@@ -32,7 +32,10 @@ class GeoMapController extends GetxController {
       region1.value = address["region1"];
       region2.value = address["region2"];
       region3.value = address["region3"];
-      admCode.value = address["admCode"]; //행정동 코드
+
+      var fullAdmCode = address["admCode"];
+      admCode.value = fullAdmCode.replaceRange(fullAdmCode.length - 5, fullAdmCode.length, "00000"); //행정동 코드
+
     }else{
       region0.value = "위치정보를 가져올 수 없습니다.";
     }
