@@ -68,15 +68,16 @@ class _WeatherState extends State<Weather> {
           ),
         ),
         SizedBox(height: 26),
-        Text(
-            '맑음',
+        Obx(() => Text(
+            shortWeatherController.weatherDescription.value,
             style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white)
+        ),
         ),
         SizedBox(height: 1),
-        Text(
-            '최고: 13º 최저: -88º',
-            style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white)
-        ),
+        Obx(() => Text(
+          '최고: ${shortWeatherController.tempMax.value} 최저: ${shortWeatherController.tempMin.value}',
+          style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white),
+        )),
         SizedBox(height: 2),
       ],
     );
