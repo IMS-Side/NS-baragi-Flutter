@@ -17,6 +17,7 @@ class ShortWeatherController extends GetxController {
   var tempMax = "".obs; //최고 온도
   var tempMin = "".obs; //최저 온도
   var crntIcon = CupertinoIcons.sun_max_fill.obs;
+  var feelTemp = "".obs; //현재 체감 온도
 
   var crnt_uvi = "".obs; //자외선 지수
   var crnt_rain = "".obs; //현재 강수량
@@ -138,6 +139,7 @@ class ShortWeatherController extends GetxController {
       tempMax.value = "${weatherData["daily"][0]["temp"]["max"].round()}°";
       tempMin.value = "${weatherData["daily"][0]["temp"]["min"].round()}°";
       crntIcon.value = weatherIcon(weatherData["current"]["weather"][0]["icon"]);
+      feelTemp.value = "${weatherData["current"]["feels_like"].round()}°C";
 
       double uvi = weatherData["current"]["uvi"] is int
           ? (weatherData["current"]["uvi"] as int).toDouble()
