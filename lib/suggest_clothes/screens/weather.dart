@@ -44,7 +44,7 @@ class _WeatherState extends State<Weather> {
                       top: 73,
                       left: 0,
                       child: Obx(() => Text(
-                        '최고: ${shortWeatherController.tempMax.value}º 최저: ${shortWeatherController.tempMin.value}º',
+                        '최고: ${shortWeatherController.tempMax.value} 최저: ${shortWeatherController.tempMin.value}',
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.7, color: Colors.white),
                       )),
                     ),
