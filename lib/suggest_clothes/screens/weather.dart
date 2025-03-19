@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nsbaragi/suggest_clothes/modals/clothesInputModal.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
+import 'package:get/get.dart';
 
 class Weather extends StatefulWidget {
   const Weather({super.key});
@@ -9,15 +11,17 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
+  final ShortWeatherController shortWeatherController = Get.find<ShortWeatherController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          '정왕동',
+        Obx(() => Text(
+          shortWeatherController.city.value,
           style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 13, height: 1.7, color: Colors.white),
-        ),
+        )),
         SizedBox(height: 10),
         Container(
           width: 318,
@@ -30,18 +34,19 @@ class _WeatherState extends State<Weather> {
                     Positioned(
                       top: 0,
                       left: 0,
-                      child: Text(
-                          '88º',
+                      child: Obx(() => Text(
+                          shortWeatherController.temperature.value,
                           style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 48, height: 1.7, color: Colors.white)
                       ),
+                      )
                     ),
                     Positioned(
                       top: 73,
                       left: 0,
-                      child: Text(
-                          '최고: 13º 최저: -88º',
-                          style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.7, color: Colors.white)
-                      ),
+                      child: Obx(() => Text(
+                        '최고: ${shortWeatherController.tempMax.value}º 최저: ${shortWeatherController.tempMin.value}º',
+                        style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.7, color: Colors.white),
+                      )),
                     ),
                     Positioned(
                       top: 97,
@@ -49,11 +54,37 @@ class _WeatherState extends State<Weather> {
                       child: Container(
                         width: 108,
                         height: 44,
-                        child: Text(
-                            '얇은 패딩이나\n자켓을 추천해요',
+                        child: Obx(() {
+                          String recommendation = '';
+
+                          // temperature 값이 숫자인지 확인하고, 아니면 기본값 설정
+                          int temp = int.tryParse(shortWeatherController.temperature.value) ?? 0;
+
+                          // 온도 범위에 따른 추천 문구
+                          if (temp >= 28) {
+                            recommendation = '민소매나\n반팔 티를 추천해요';
+                          } else if (temp >= 23) {
+                            recommendation = '반팔 티와\n반바지를 추천해요';
+                          } else if (temp >= 20) {
+                            recommendation = '긴팔 티와\n면바지를 추천해요';
+                          } else if (temp >= 17) {
+                            recommendation = '얇은 가디건이나\n맨투맨을 추천해요';
+                          } else if (temp >= 12) {
+                            recommendation = '청바지와\n니트를 추천해요';
+                          } else if (temp >= 9) {
+                            recommendation = '트렌치 코트나\n야상을 추천해요';
+                          } else if (temp >= 5) {
+                            recommendation = '울 코트와\n기모 옷을 추천해요';
+                          } else {
+                            recommendation = '두꺼운 코트나\n패딩을 추천해요';
+                          }
+
+                          return Text(
+                            recommendation,
                             softWrap: true,
-                            style: TextStyle(fontFamily: 'PretendardBold', fontSize: 13, height: 1.7, color: Colors.white)
-                        ),
+                            style: TextStyle(fontFamily: 'PretendardBold', fontSize: 13, height: 1.7, color: Colors.white),
+                          );
+                        }),
                       ),
                     ),
                     Positioned(
