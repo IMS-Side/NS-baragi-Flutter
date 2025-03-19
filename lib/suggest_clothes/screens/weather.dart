@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nsbaragi/suggest_clothes/modals/clothesInputModal.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
+import 'package:get/get.dart';
 
 class Weather extends StatefulWidget {
   const Weather({super.key});
@@ -9,15 +11,17 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
+  final ShortWeatherController shortWeatherController = Get.find<ShortWeatherController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          '정왕동',
+        Obx(() => Text(
+          shortWeatherController.city.value,
           style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 13, height: 1.7, color: Colors.white),
-        ),
+        )),
         SizedBox(height: 10),
         Container(
           width: 318,
@@ -30,18 +34,19 @@ class _WeatherState extends State<Weather> {
                     Positioned(
                       top: 0,
                       left: 0,
-                      child: Text(
-                          '88º',
+                      child: Obx(() => Text(
+                          shortWeatherController.temperature.value,
                           style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 48, height: 1.7, color: Colors.white)
                       ),
+                      )
                     ),
                     Positioned(
                       top: 73,
                       left: 0,
-                      child: Text(
-                          '최고: 13º 최저: -88º',
-                          style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.7, color: Colors.white)
-                      ),
+                      child: Obx(() => Text(
+                        '최고: ${shortWeatherController.tempMax.value}º 최저: ${shortWeatherController.tempMin.value}º',
+                        style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.7, color: Colors.white),
+                      )),
                     ),
                     Positioned(
                       top: 97,
