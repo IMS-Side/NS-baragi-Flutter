@@ -1,13 +1,24 @@
 import 'dart:async';
+import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 
 class StatisticService {
+
+  final GeoMapController geoMapController = Get.find<GeoMapController>();
 
   Future<Map<String, List<double>>> fetchStatistic() async {
 
     print('서비스 : fetchStatistic 함수 실행');
-    String? code;
+
+    // 행정동 코드가 설정될 때까지 기다림
+    while (geoMapController.admCode.value == "행정동 코드" || geoMapController.admCode.value.isEmpty) {
+      print("행정동 코드가 아직 설정되지 않음. 대기 중...");
+      await Future.delayed(Duration(milliseconds: 500));
+    }
+
+    var admCode = geoMapController.admCode;
 
     // 임시 반환값 선언
     Map<String, List<double>> response;
@@ -22,32 +33,10 @@ class StatisticService {
     print('반환값 : ');
     print(response);
 
-    // 행정동 코드 조회 API 호출
-    Uri getCodeUri = Uri.parse('http://192.168.0.223:8080/address/find?sido=경기도&sigungu=시흥시');
-
-    try {
-      print('행정동 코드 조회 try문 진입');
-      
-      final codeResponse = await http.get(getCodeUri);
-      print('get 함수 실행 완료');
-
-      if (codeResponse.statusCode == 200) {
-        final data = jsonDecode(codeResponse.body);
-        code = data.toString();
-        print('행정동 코드 조회 응답 데이터: $code');
-      }
-    } catch (e) {
-      print('예외 발생 : $e');
-    }
-
-    // code가 null이면 체감날씨 통계 조회를 건너뜀
-    if (code == null) {
-      print('code가 null이므로 체감날씨 통계 조회를 수행하지 않음');
-      return response;
-    }
+    print('행정동 코드 조회 응답 데이터: $admCode');
 
     // 체감날씨 통계 조회 API 호출
-    Uri getStatisticUri = Uri.parse('http://192.168.0.223:8080/weather/count/$code');
+    Uri getStatisticUri = Uri.parse('http://192.168.0.223:8080/weather/count/$admCode');
     try {
       print('체감날씨 통계 조회 try문 진입');
 
