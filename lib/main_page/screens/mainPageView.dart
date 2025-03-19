@@ -14,19 +14,18 @@ class MainPageView extends StatefulWidget {
 class _MainPageViewState extends State<MainPageView> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 60), //다른 Widget에도 추가해줘야함.
           PresentWeather(), // 현재 날씨
-          SizedBox(height: 12), // 사이 간격
-          DayWeather(), // 하루 날씨
-          SizedBox(height: 12), // 사이 간격
+          const SizedBox(height: 12), // 사이 간격
+          const DayWeather(), // 하루 날씨
+          const SizedBox(height: 12), // 사이 간격
           WeekWeather(), // 주간 날씨
-          SizedBox(height: 12), // 사이 간격
+          const SizedBox(height: 12), // 사이 간격
           OtherWeather(), // 기타 날씨
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
         ],
       ),
     );
