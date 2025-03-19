@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nsbaragi/main_page/controllers/AirQualityController.dart';
+import 'package:nsbaragi/main_page/controllers/airQualityController.dart';
 import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 import 'package:nsbaragi/main_page/widgets/otherWeatherCard.dart';

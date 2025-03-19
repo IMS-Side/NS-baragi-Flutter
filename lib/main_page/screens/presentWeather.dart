@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 import 'package:get/get.dart';
+import 'package:nsbaragi/main_page/controllers/agreeWeatherController.dart';
 
 class PresentWeather extends StatelessWidget {
 
   final ShortWeatherController shortWeatherController = Get.put(ShortWeatherController());
+  final AgreeWeatherController agreeWeatherController = Get.put(AgreeWeatherController());
 
   PresentWeather({super.key});
 
@@ -70,13 +72,13 @@ class PresentWeather extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5,),
-        const Text("10%가 동의해요",
+        Obx(() => Text("${agreeWeatherController.agree.value}%가 동의해요",
           style: TextStyle(
             fontSize: 10,
             color: Colors.white,
             fontFamily: 'PretendardRegular',
           ),
-        ),
+        )),
         const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center, // Row의 children을 가운데 정렬
