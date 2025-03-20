@@ -22,7 +22,7 @@ class _MainPageViewState extends State<MainPageView> {
           const SizedBox(height: 12), // 사이 간격
           const DayWeather(), // 하루 날씨
           const SizedBox(height: 12), // 사이 간격
-          const WeekWeather(), // 주간 날씨
+          WeekWeather(), // 주간 날씨
           const SizedBox(height: 12), // 사이 간격
           OtherWeather(), // 기타 날씨
           const SizedBox(height: 12),

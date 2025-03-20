@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'; // Flutter 기본 Material 라이브러리
-import '../widgets/weekWeatherCard.dart'; // WeekCard 파일 가져오기
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
+import '../widgets/weekWeatherCard.dart';
+import 'package:intl/intl.dart';
 
+class WeekWeather extends StatelessWidget {
+  final ShortWeatherController weatherController = Get.put(ShortWeatherController());
 
-class WeekWeather extends StatefulWidget {
-  const WeekWeather({super.key});
+  WeekWeather({super.key});
 
-  @override
-  State<WeekWeather> createState() => _WeekWeatherState();
-}
-
-class _WeekWeatherState extends State<WeekWeather> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -19,27 +17,40 @@ class _WeekWeatherState extends State<WeekWeather> {
         margin: const EdgeInsets.all(2),
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-            color: const Color(0x33467ABE),
+            color: const Color(0x50467ABE),
             borderRadius: BorderRadius.circular(15)
         ),
-        child: ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-            itemCount: 7,
+        child: Obx(() {
+          if(weatherController.weeklyWeather.isEmpty){
+            return const Center(child: CircularProgressIndicator(),);
+          }
+
+          return ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: weatherController.weeklyWeather.length,
             itemBuilder: (context, index){
-                return const Padding(
-                  padding: EdgeInsets.only(bottom: 2.0),
-                  child: WeekCard(),
-                );
+              var day = weatherController.weeklyWeather[index]; // 각 날씨 데이터
+              String weekday = DateFormat.E('ko_KR').format(day["date"]);
+
+              return WeekCard(
+                date: weekday,
+                icon: day["icon"],
+                pop: "${day["pop"]}%", // 강수 확률
+                minTemp: day["min_temp"],
+                maxTemp: day["max_temp"],
+              );
             },
-            separatorBuilder: (context, index){
+            separatorBuilder: (context, index) {
               return const Divider(
-                color: Color(0xFF8FC5E9),
+                color: Color(0xFF8FC5E9), //나중에 색 변경 해줘야함.
                 indent: 8,
                 endIndent: 8,
               );
-              },
-          ),
+            },
+          );
+        }),
+
       ),
     );
   }

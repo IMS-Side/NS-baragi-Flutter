@@ -1,7 +1,26 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class StatisticCard extends StatefulWidget {
-  const StatisticCard({super.key});
+  final String title;   // 카드의 제목
+  final String state0;  // 상태0
+  final String state1;  // 상태1
+  final String state2;  // 상태2
+  final double value0;  // 값0
+  final double value1;  // 값1
+  final double value2;  // 값2
+
+  const StatisticCard({
+    super.key,
+    required this.title,
+    required this.state0,
+    required this.state1,
+    required this.state2,
+    required this.value0,
+    required this.value1,
+    required this.value2,
+  });
 
   @override
   State<StatisticCard> createState() => _StatisticCardState();
@@ -29,7 +48,7 @@ class _StatisticCardState extends State<StatisticCard> {
           children: [
             SizedBox(height: 4),
             Text(
-              '햇살',
+              widget.title,
               style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.white),
             ),
             SizedBox(height: 13),
@@ -47,7 +66,7 @@ class _StatisticCardState extends State<StatisticCard> {
                   Row(
                     children: [
                       Text(
-                        '추움',
+                        widget.state0,
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.white),
                       ),
                       SizedBox(width: 3),
@@ -55,7 +74,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                          value: 0.8,
+                          value: widget.value0,
                           backgroundColor: Color(0x96666666),
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),
@@ -65,7 +84,7 @@ class _StatisticCardState extends State<StatisticCard> {
                   Row(
                     children: [
                       Text(
-                        '좋음',
+                        widget.state1,
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.white),
                       ),
                       SizedBox(width: 3),
@@ -73,7 +92,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                            value: 0.8,
+                            value: widget.value1,
                             backgroundColor: Color(0x96666666),
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),
@@ -83,7 +102,7 @@ class _StatisticCardState extends State<StatisticCard> {
                   Row(
                     children: [
                       Text(
-                        '더움',
+                        widget.state2,
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.white),
                       ),
                       SizedBox(width: 3),
@@ -91,7 +110,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                            value: 0.8,
+                            value: widget.value2,
                             backgroundColor: Color(0x96666666),
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/controllers/airQualityController.dart';
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 import 'package:nsbaragi/main_page/widgets/otherWeatherCard.dart';
 import 'package:get/get.dart';
 
 class OtherWeather extends StatelessWidget {
 
+  final GeoMapController geoMapController = Get.put(GeoMapController());
   final ShortWeatherController shortWeatherController = Get.put(ShortWeatherController());
+  final AirQualityController airQualityController = Get.put(AirQualityController());
 
   OtherWeather({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,11 @@ class OtherWeather extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 11),
-          const OtherWeatherCard(
-            title: "미세먼지",
-            value: "보통 (78µg/m³)",
-            icon: Icons.air, // 미세먼지 아이콘
-          ),
+          Obx(() => OtherWeatherCard(
+              title: "미세먼지",
+              value: " ${airQualityController.pm10Dens.value} (${airQualityController.pm10.value} µg/m³)",
+              icon: Icons.air
+          )),
           const SizedBox(width: 10),
           Obx(() => OtherWeatherCard(
             title: "자외선 지수",

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
+import 'package:get/get.dart';
 
 class Weather extends StatefulWidget {
   const Weather({super.key});
@@ -8,15 +10,17 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
+  final ShortWeatherController shortWeatherController = Get.find<ShortWeatherController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          '정왕동',
+        Obx(() => Text(
+          shortWeatherController.city.value,
           style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 13, height: 1.7, color: Colors.white),
-        ),
+        )),
         SizedBox(height: 9),
         Container(
           width: 392,
@@ -34,9 +38,10 @@ class _WeatherState extends State<Weather> {
                         style: TextStyle(fontFamily: 'PretendardRegular',fontSize: 12, height: 1.0, color: Colors.white)
                     ),
                     SizedBox(height: 4),
-                    Text(
-                        '88º',
-                        style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 64, height: 1.0, color: Colors.white)
+                    Obx(() => Text(
+                          shortWeatherController.temperature.value,
+                          style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 64, height: 1.0, color: Colors.white)
+                      ),
                     )
                   ],
                 ),
@@ -51,9 +56,10 @@ class _WeatherState extends State<Weather> {
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 12, height: 1.0, color: Colors.white)
                     ),
                     SizedBox(height: 4),
-                    Text(
-                        '03º',
+                    Obx(() => Text(
+                        shortWeatherController.feelTemp.value,
                         style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 64, height: 1.0, color: Colors.white)
+                    ),
                     )
                   ],
                 ),
@@ -62,15 +68,16 @@ class _WeatherState extends State<Weather> {
           ),
         ),
         SizedBox(height: 26),
-        Text(
-            '맑음',
+        Obx(() => Text(
+            shortWeatherController.weatherDescription.value,
             style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white)
+        ),
         ),
         SizedBox(height: 1),
-        Text(
-            '최고: 13º 최저: -88º',
-            style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white)
-        ),
+        Obx(() => Text(
+          '최고: ${shortWeatherController.tempMax.value} 최저: ${shortWeatherController.tempMin.value}',
+          style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 12, height: 1.7, color: Colors.white),
+        )),
         SizedBox(height: 2),
       ],
     );
