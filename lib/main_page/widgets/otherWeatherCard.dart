@@ -60,7 +60,7 @@ class OtherWeatherCard extends StatelessWidget {
                   value,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 15,
                     fontFamily: 'PretendardSemiBold',
                   ),
                 ),

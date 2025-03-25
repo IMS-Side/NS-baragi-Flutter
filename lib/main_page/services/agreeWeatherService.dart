@@ -4,11 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AgreeWeatherService{
-  final String baseUrl = dotenv.env['BASE_URL'] ?? '192.168.0.223:8080/likes/result/{code}';
+  final String baseUrl = dotenv.env['SERVER_URL'] ?? 'http://192.168.0.223:8080';
 
   //2.1 현재 날씨 공감 정보 가져오기
-  Future<Map<String, dynamic>?> getAgreeStatus(String admCode) async {
+  Future<Map<String, dynamic>?> getAgreeStatus(String code) async {
+
+    int admCode = int.parse(code);
     final String url = '$baseUrl/likes/result/$admCode';
+    log("$admCode", name: "AgreeWeatherService" );
+
     try {
       final response = await http.get(Uri.parse(url));
 
@@ -28,8 +32,11 @@ class AgreeWeatherService{
   }
 
   //2.2 공감/비공감 전송 API
-  Future<void> sendAgreeStatus(String admCode, int like) async {
+  Future<void> sendAgreeStatus(String code, int like) async {
+
+    int admCode = int.parse(code);
     final String url = '$baseUrl/likes/add?code=$admCode&likes=$like';
+    log("$admCode", name: "AgreeWeatherService" );
 
     try{
       final response = await http.get(Uri.parse(url));

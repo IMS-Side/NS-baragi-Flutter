@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:nsbaragi/main_page/controllers/agreeWeatherController.dart';
 import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 import 'package:nsbaragi/main_page/services/naverMapService.dart';
 
 class GeoMapController extends GetxController {
   final NaverMapService naverMapService = NaverMapService();
   final ShortWeatherController shortWeatherController =  Get.put(ShortWeatherController());
+  final AgreeWeatherController agreeWeatherController = Get.put(AgreeWeatherController());
 
   var region0 = "국가".obs;
   var region1 = "시/도".obs;
@@ -22,6 +24,13 @@ class GeoMapController extends GetxController {
   void onInit() {
     super.onInit();
     getCrntAddress();
+
+    // admCode 변경 감지 및 공감 정보 업데이트
+    ever<String>(admCode, (newAdmCode) {
+      if (newAdmCode != "행정동 코드") {
+        agreeWeatherController.fetchAgreeStatus(newAdmCode);
+      }
+    });
   }
 
   //현재 위치와 주소, 행정동 코드를 가져오는 메서드
