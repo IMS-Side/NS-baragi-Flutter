@@ -9,11 +9,16 @@ import 'package:nsbaragi/main_page/sidebar/regionWeather.dart';
 import 'package:nsbaragi/suggest_clothes/screens/suggestClothesView.dart';
 import 'main_page/screens/mainPageView.dart';
 import 'main_page/tabbar/tabbar.dart';
+import 'package:intl/date_symbol_data_local.dart'; // 한국어 날자 포맷
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 필수: Flutter 엔진 초기화
   await dotenv.load(fileName: 'assets/config/.env'); //환경 변수 로드
+
+  await initializeDateFormatting('ko_KR', null); // 한국어 날짜 포맷 초기화
+
   await initializeDateFormatting('ko_KR', null);
+
   runApp(const MyApp());
 }
 
@@ -24,6 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      locale: Locale('ko', 'KR'), // 한국어 설정
       home: MyHomePage(),
     );
   }

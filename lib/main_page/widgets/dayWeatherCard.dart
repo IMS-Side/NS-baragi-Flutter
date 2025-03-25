@@ -1,21 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // 시간을 변환할 라이브러리
 
-class DayCard extends StatefulWidget {
-  const DayCard({super.key});
 
-  @override
-  State<DayCard> createState() => _DayCardState();
-}
+class DayCard extends StatelessWidget {
+  final int time; // Unix 타임스탬프
+  final double temp; // 온도
+  final double pop; // 강수확률
+  final String weather; // 날씨 상태
 
-class _DayCardState extends State<DayCard> {
+  const DayCard({
+    super.key,
+    required this.time,
+    required this.temp,
+    required this.pop,
+    required this.weather,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "오전 11시",
+          _formatTime(time),
           style: TextStyle(
             color: Colors.white,
             fontSize: 10,
@@ -23,13 +31,13 @@ class _DayCardState extends State<DayCard> {
         ),
         SizedBox(height: 9),
         Icon(
-          Icons.cloud_outlined, // 구름 아이콘
+          _getWeatherIcon(weather), //날씨 상태에 따른 아이콘
           color: Colors.white,
           size: 30,
         ),
         SizedBox(height: 5),
         Text(
-          "5°",
+          "${temp.round()}°", //온도 불러오기
           style: TextStyle(
             color: Colors.white,
             fontSize: 14,
@@ -46,7 +54,7 @@ class _DayCardState extends State<DayCard> {
               size: 15,
             ),
             Text(
-              "10%",
+              "${(pop * 100).toInt()}%", //강수확률 변환 0.1->10%..
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 10,
@@ -57,4 +65,25 @@ class _DayCardState extends State<DayCard> {
       ],
     );
   }
+
+  String _formatTime(int timestamp) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return DateFormat('a h시', 'ko_KR').format(dateTime);
+  }
+  //아이콘 변환
+IconData _getWeatherIcon(String weather){
+    switch (weather.toLowerCase()){
+      case 'clear':
+        return Icons.wb_sunny;
+      case 'clouds':
+        return Icons.cloud;
+      case 'rain':
+        return Icons.grain;
+      case 'snow':
+        return Icons.ac_unit;
+      default:
+        return Icons.wb_sunny;
+
+    }
+}
 }
