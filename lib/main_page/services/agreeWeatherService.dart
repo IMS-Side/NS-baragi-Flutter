@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AgreeWeatherService{
-  final String baseUrl = dotenv.env['SERVER_URL'] ?? 'http://192.168.0.223:8080';
+  final String baseUrl = dotenv.env['SERVER_URL'] ?? '';
 
   //2.1 현재 날씨 공감 정보 가져오기
   Future<Map<String, dynamic>?> getAgreeStatus(String code) async {

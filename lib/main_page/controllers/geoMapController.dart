@@ -61,11 +61,11 @@ class GeoMapController extends GetxController {
         double latitude = searchResult["latitude"];
         double longitude = searchResult["longitude"];
         String address = searchResult["address"];
-        String newAdmCode = searchResult["admCode"];
+        String fullAdmCode = searchResult["admCode"];
 
+        admCode.value = fullAdmCode.replaceRange(fullAdmCode.length - 5, fullAdmCode.length, "00000"); //행정동 코드
         region.value = address; // 전체 주소 업데이트
         region3.value = address.split(" ").last; // 마지막 구역 정보 (읍/면/동)
-        admCode.value = newAdmCode; //행정동 코드
 
         update();
 

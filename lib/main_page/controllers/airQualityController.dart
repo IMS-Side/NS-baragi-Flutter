@@ -18,11 +18,15 @@ class AirQualityController extends GetxController {
   void onInit() {
     super.onInit();
 
-    //시/도 변경 감지 시 미세먼지 정보 호출
-    ever(geoMapController.region1, (String newRegion) {
-      log("시/도 변경 감지: $newRegion", name: "AirQualityController");
-      fetchAirQuality(newRegion);
-    });
+    //지역 변경 시 미세먼지 정보 업데이트 (시/도 + 시/군/구 + 읍/면/동 감지)
+    everAll(
+      [geoMapController.region1, geoMapController.region2, geoMapController.region3],
+          (_) {
+        final newRegion = "${geoMapController.region1.value} ${geoMapController.region2.value}";
+        log("주소 변경 감지: $newRegion", name: "AirQualityController");
+        fetchAirQuality(geoMapController.region1.value);
+      },
+    );
 
     //초기 실행 시 호출
     fetchAirQuality(geoMapController.region1.value);
@@ -54,8 +58,6 @@ class AirQualityController extends GetxController {
         log("해당 시/도의 측정소 정보 없음: $sidoName", name: "AirQualityController");
         return;
       }
-
-      //log("측정소 목록: $stations", name: "AirQualityController");
 
       //측정소 순차적으로 조회
       for (String selectedStation in stations) {

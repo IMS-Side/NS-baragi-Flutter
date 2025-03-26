@@ -20,7 +20,7 @@ class _MainPageViewState extends State<MainPageView> {
         children: <Widget>[
           PresentWeather(), // 현재 날씨
           const SizedBox(height: 12), // 사이 간격
-          const DayWeather(), // 하루 날씨
+          DayWeather(), // 하루 날씨
           const SizedBox(height: 12), // 사이 간격
           WeekWeather(), // 주간 날씨
           const SizedBox(height: 12), // 사이 간격
