@@ -36,7 +36,7 @@ class WeekWeather extends StatelessWidget {
               return WeekCard(
                 date: weekday,
                 icon: day["icon"],
-                pop: "${day["pop"]}%", // 강수 확률
+                pop: "${day["pop"].round()}%", // 강수 확률
                 minTemp: day["min_temp"],
                 maxTemp: day["max_temp"],
               );

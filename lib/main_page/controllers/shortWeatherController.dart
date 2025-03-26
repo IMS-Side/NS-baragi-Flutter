@@ -153,7 +153,7 @@ class ShortWeatherController extends GetxController {
           "max_temp": "${weatherData["daily"][index]["temp"]["max"].round()}°C",
           "weather": weatherData["daily"][index]["weather"][0]["description"],
           "icon": weatherIcon(weatherData["daily"][index]["weather"][0]["icon"]),
-          "pop": (weatherData["daily"][index]["pop"] ?? 0) * 100
+          "pop": (weatherData["daily"][index]["pop"] ?? 0) * 100.round()
         };
       });
 

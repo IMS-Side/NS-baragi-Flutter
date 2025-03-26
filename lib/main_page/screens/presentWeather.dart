@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 import 'package:get/get.dart';
 import 'package:nsbaragi/main_page/controllers/agreeWeatherController.dart';
+import '../../apparent_weather/modals/weatherInputModal.dart';
 
 class PresentWeather extends StatelessWidget {
 
   final ShortWeatherController shortWeatherController = Get.put(ShortWeatherController());
   final AgreeWeatherController agreeWeatherController = Get.put(AgreeWeatherController());
+  final GeoMapController geoMapController = Get.put(GeoMapController());
 
   PresentWeather({super.key});
 
+  final RxBool isAgree = false.obs; //동의/비동의 여부
+
+  //모달창
+  void _showWeatherInputDialog(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return WeatherInputModal();
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        _temper(), // 온도를 나타내는 위젯 호출
-        _agreement(), // 동의를 나타내는 위젯 호출
-      ],
+    return Center(
+      child: Column(
+        children: <Widget>[
+          _temper(), // 온도를 나타내는 위젯 호출
+          _agreement(), // 동의를 나타내는 위젯 호출
+        ],
+      ),
     );
   }
 
@@ -61,6 +78,7 @@ class PresentWeather extends StatelessWidget {
       ],
     );
   }
+
   Widget _agreement(){
     return Column(
       children: [
@@ -72,66 +90,83 @@ class PresentWeather extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5,),
-        Obx(() => Text("${agreeWeatherController.agree.value}%가 동의해요",
-          style: TextStyle(
-            fontSize: 10,
-            color: Colors.white,
-            fontFamily: 'PretendardRegular',
-          ),
-        )),
+
+        Obx(() {
+          final agreeText = isAgree.value
+              ? "${agreeWeatherController.agreePer.value}%가 동의하고 있어요."
+              : "${agreeWeatherController.agree.value}명이 동의해요";
+
+          return Text(
+            agreeText,
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.white,
+              fontFamily: 'PretendardRegular',
+            ),
+          );
+        }),
         const SizedBox(height: 10,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center, // Row의 children을 가운데 정렬
-          children: [
-            SizedBox(
-              width: 80,
-              height: 22,
-              child: OutlinedButton(
-                onPressed: () {
-                  // 누르면 이벤트 실행
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(
-                    color: Colors.white,
-                    width: 1.0,
+
+        //동의/비동의 버튼
+        Obx( ()=> isAgree.value
+            ? const SizedBox() //동의 버튼 클릭 시 사라짐.
+            : Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Row의 children을 가운데 정렬
+              children: [
+                SizedBox(
+                  width: 80,
+                  height: 22,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      // 동의 이벤트 실행
+                      agreeWeatherController.sendAgree(geoMapController.admCode.value, 1);
+                      isAgree.value = true; //동의 후 버튼 숨기기
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Colors.white,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: const Text(
+                      "동의",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontFamily: 'PretendardRegular',
+                      ),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  "동의",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontFamily: 'PretendardRegular',
+                const SizedBox(width: 10), // 버튼 간 간격 추가
+                SizedBox(
+                  width: 80,
+                  height: 22,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      // 누르면 이벤트 실행
+                      _showWeatherInputDialog(Get.context!);
+                      agreeWeatherController.sendAgree(geoMapController.admCode.value, 0);
+                      isAgree.value = true;
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Colors.white,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: const Text(
+                      "비동의",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontFamily: 'PretendardRegular',
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 10), // 버튼 간 간격 추가
-            SizedBox(
-              width: 80,
-              height: 22,
-              child: OutlinedButton(
-                onPressed: () {
-                  // 누르면 이벤트 실행
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(
-                    color: Colors.white,
-                    width: 1.0,
-                  ),
-                ),
-                child: const Text(
-                  "비동의",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontFamily: 'PretendardRegular',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
+              ],
+            )),
       ],
     );
   }
