@@ -8,16 +8,18 @@ class ClothesInputCard extends StatefulWidget {
 }
 
 class _ClothesInputCardState extends State<ClothesInputCard> {
+  int? selectedIndex;
+
   @override
   Widget build(BuildContext context) {
 
     final Size size = MediaQuery.of(context).size;
+    List<String> options = ["추움", "좋음", "더움"];
 
     return Card(
       color: Colors.transparent,
       elevation: 0.0,
       margin: EdgeInsets.zero,
-
       child: Container(
         width: size.width * 0.665,
         height: size.height * 0.040,
@@ -25,33 +27,36 @@ class _ClothesInputCardState extends State<ClothesInputCard> {
           color: const Color(0xFF467ABE).withOpacity(0.3),
           borderRadius: BorderRadius.circular(30.0),
         ),
-
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                '추움',
-                style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.black),
+        child: Row(
+          children: List.generate(options.length, (index) {
+            return Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+                child: Container(
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: selectedIndex == index ? const Color(0x80234C83) : Colors.transparent,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Text(
+                    options[index],
+                    style: TextStyle(
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 10,
+                      height: 1.7,
+                      color: selectedIndex == index ? Colors.white : Colors.black, // 선택 시 글자색 변경
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
-              VerticalDivider(
-                  color: Color(0xFF95949C),
-                  thickness: 1.0),
-              Text(
-                '좋음',
-                style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.black),
-              ),
-              VerticalDivider(
-                  color: Color(0xFF95949C),
-                  thickness: 1.0),
-              Text(
-                '더움',
-                style: TextStyle(fontFamily: 'PretendardRegular', fontSize: 10, height: 1.7, color: Colors.black),
-              ),
-            ],
-          ),
+            );
+          }),
         ),
       ),
     );

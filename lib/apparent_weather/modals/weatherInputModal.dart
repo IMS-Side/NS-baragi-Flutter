@@ -26,17 +26,22 @@ class WeatherInputModal extends StatelessWidget {
           children: [
 
             Positioned(
-                top: size.height * 0.017,
-                right: size.width * 0.032,
+              top: size.height * 0.017,
+              right: size.width * 0.032,
+              child: GestureDetector( // 터치 이벤트 추가
+                onTap: () {
+                  Navigator.pop(context); // 모달 닫기
+                },
                 child: Icon(
                   Icons.close,
                   color: Colors.black,
                   size: size.height * 0.033,
                 ),
+              ),
             ),
 
             Align(
-              child: Container(
+              child: SizedBox(
                 width: size.width * 0.811,
                 height: size.height * 0.417,
 
@@ -65,7 +70,7 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(),
+                            WeatherInputCard(options: ['없음','보통','많음']),
                           ],
                         )
                     ),
@@ -82,12 +87,12 @@ class WeatherInputModal extends StatelessWidget {
                               height: size.height * 0.019,
                               alignment: Alignment.center,
                               child: Text(
-                                '비',
+                                '습도',
                                 style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 10, height: 1.7, color: Colors.black),
                               ),
                             ),
 
-                            WeatherInputCard(),
+                            WeatherInputCard(options: ['낮음','보통','높음']),
                           ],
                         )
                     ),
@@ -104,12 +109,12 @@ class WeatherInputModal extends StatelessWidget {
                               height: size.height * 0.019,
                               alignment: Alignment.center,
                               child: Text(
-                                '비',
+                                '햇살',
                                 style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 10, height: 1.7, color: Colors.black),
                               ),
                             ),
 
-                            WeatherInputCard(),
+                            WeatherInputCard(options: ['조금','보통','많음']),
                           ],
                         )
                     ),
@@ -126,12 +131,12 @@ class WeatherInputModal extends StatelessWidget {
                               height: size.height * 0.019,
                               alignment: Alignment.center,
                               child: Text(
-                                '비',
+                                '바람',
                                 style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 10, height: 1.7, color: Colors.black),
                               ),
                             ),
 
-                            WeatherInputCard(),
+                            WeatherInputCard(options: ['낮음','보통','높음']),
                           ],
                         )
                     ),
@@ -148,12 +153,12 @@ class WeatherInputModal extends StatelessWidget {
                               height: size.height * 0.019,
                               alignment: Alignment.center,
                               child: Text(
-                                '비',
+                                '하늘 상태',
                                 style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 10, height: 1.7, color: Colors.black),
                               ),
                             ),
 
-                            WeatherInputCard(),
+                            WeatherInputCard(options: ['맑음','구름 조금','구름 많음', '흐림']),
                           ],
                         )
                     ),

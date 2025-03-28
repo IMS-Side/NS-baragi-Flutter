@@ -28,10 +28,15 @@ class ClothesInputModal extends StatelessWidget {
               Positioned(
                 top: size.height * 0.017,
                 right: size.width * 0.032,
-                child: Icon(
-                  Icons.close,
-                  color: Colors.black,
-                  size: size.height * 0.033,
+                child: GestureDetector( //터치 이벤트 추가
+                  onTap: () {
+                    Navigator.pop(context); //모달 닫기
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                    size: size.height * 0.033,
+                  ),
                 ),
               ),
 
@@ -55,15 +60,31 @@ class ClothesInputModal extends StatelessWidget {
                     child: Column(
                       children: [
 
-                        ClothesInputCards(),
+                        ClothesInputCards(
+                          category: '아우터',
+                          clothesList: ['자켓', '야상', '트렌치코드', '코트'],
+                        ),
 
                         SizedBox(height: size.height * 0.030,),
 
-                        ClothesInputCards(),
+                        ClothesInputCards(
+                          category: '상의',
+                          clothesList: ['민소매', '반팔', '얇은 셔츠', '긴팔'],
+                        ),
 
                         SizedBox(height: size.height * 0.030,),
 
-                        ClothesInputCards(),
+                        ClothesInputCards(
+                          category: '하의',
+                          clothesList: ['반바지', '면바지', '청바지', '후드 집업'],
+                        ),
+
+                        SizedBox(height: size.height * 0.050,),
+
+                        ClothesInputCards(
+                          category: '기타',
+                          clothesList: ['목도리', '기모', '레깅스', '스타킹'],
+                        ),
 
                         SizedBox(height: size.height * 0.050,),
 
