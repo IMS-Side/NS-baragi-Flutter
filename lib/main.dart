@@ -20,6 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Flutter 엔진 초기화
   await dotenv.load(fileName: 'assets/config/.env'); // 환경 변수 로드
   await initializeDateFormatting('ko_KR', null); // 한국어 날짜 포맷 초기화
+  Get.put(ShortWeatherController());
 
   runApp(const MyApp());
 }

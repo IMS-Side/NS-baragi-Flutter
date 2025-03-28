@@ -30,8 +30,10 @@ class ShortWeatherController extends GetxController {
   var hour_temp = "".obs; //온도
   var hour_pop = "".obs; //강수 확률
   var hour_weather_main = "".obs; //시간 별 날씨 상태 (2XX, 3XX 등 코드로 구분가능)
+  var weatherMessage = "날씨 정보 불러오는 중...".obs; //날씨별 문구
 
   var weeklyWeather = <Map<String, dynamic>>[].obs;
+  var hourlyWeather = <Map<String, dynamic>>[].obs;
 
   @override
   void onInit() {
@@ -110,6 +112,26 @@ class ShortWeatherController extends GetxController {
     }
   }
 
+  //날씨에 따른 문구 변경
+  void updateWeatherMessage(String weather){
+    switch (weather){
+      case "Clear":
+        weatherMessage.value = "맑은 하늘을 볼 수 있어요";
+        break;
+      case "Clouds":
+        weatherMessage.value = "구름이 조금 있어요";
+        break;
+      case "Snow":
+        weatherMessage.value = "눈이 내려요";
+        break;
+      case "Rain":
+        weatherMessage.value = "비가 오고 있어요";
+        break;
+      default:
+        weatherMessage.value = "날씨 정보를 가져오는 중...";
+    }
+  }
+
   //현재 날씨
   Future<void> fetchWeather([double? latitude, double? longitude])  async {
     double lat, lng;
@@ -146,6 +168,8 @@ class ShortWeatherController extends GetxController {
           : weatherData["current"]["uvi"];
       indexUvi(uvi);
 
+      updateWeatherMessage(weatherData["current"]["weather"][0]["main"]);
+
       weeklyWeather.value = List.generate(7, (index) {
         return {
           "date": DateTime.fromMillisecondsSinceEpoch(weatherData["daily"][index]["dt"] * 1000),
@@ -157,6 +181,17 @@ class ShortWeatherController extends GetxController {
         };
       });
 
+      hourlyWeather.value = List<Map<String, dynamic>>.from(
+        weatherData["hourly"].map((hour){
+          return {
+            "dt": hour["dt"],
+            "temp": hour["temp"],
+            "pop": hour["pop"],
+            "weather": hour["weather"][0]["main"],
+          };
+        }
+        ),
+      );
       update(); //GetX 상태 업데이트
     } else {
       weatherDescription.value = "날씨 정보를 가져올 수 없습니다.";
