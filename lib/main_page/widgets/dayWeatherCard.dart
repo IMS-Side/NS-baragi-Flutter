@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // 시간을 변환할 라이브러리
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../controllers/shortWeatherController.dart'; // 시간을 변환할 라이브러리
 
 
 class DayCard extends StatelessWidget {
@@ -19,6 +22,8 @@ class DayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ShortWeatherController weatherController = Get.find<ShortWeatherController>();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -30,8 +35,9 @@ class DayCard extends StatelessWidget {
           ),
         ),
         SizedBox(height: 9),
+
         Icon(
-          _getWeatherIcon(weather), //날씨 상태에 따른 아이콘
+          weatherController.weatherIcon(_convertWeatherToIconCode(weather)), //날씨 상태에 따른 아이콘
           color: Colors.white,
           size: 30,
         ),
@@ -71,19 +77,18 @@ class DayCard extends StatelessWidget {
     return DateFormat('a h시', 'ko_KR').format(dateTime);
   }
   //아이콘 변환
-IconData _getWeatherIcon(String weather){
-    switch (weather.toLowerCase()){
+  String _convertWeatherToIconCode(String weather) {
+    switch (weather.toLowerCase()) {
       case 'clear':
-        return Icons.wb_sunny;
+        return '01d';
       case 'clouds':
-        return Icons.cloud;
+        return '03d';
       case 'rain':
-        return Icons.grain;
+        return '10d';
       case 'snow':
-        return Icons.ac_unit;
+        return '13d';
       default:
-        return Icons.wb_sunny;
-
+        return '01d';
     }
 }
 }
