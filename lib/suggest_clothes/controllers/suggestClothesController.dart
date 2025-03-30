@@ -7,11 +7,11 @@ import 'package:nsbaragi/suggest_clothes/services/suggestClothesService.dart';
 class SuggestClothesController extends GetxController{
   final SuggestClothesService suggestClothesService = SuggestClothesService();
 
-  var selectedClothes = <String, String>{}.obs; //선택한 옷 정보 저장
+  var selectedClothes = <String, String>{}.obs;
 
-  void selectClothes(String category, String value){
-    selectedClothes[category] = value;
-    update();
+  void selectFeel(String item, String feel){
+    selectedClothes[item] = feel;
+    selectedClothes.refresh();
   }
 
   Future<void> sendFeelClothes() async {
