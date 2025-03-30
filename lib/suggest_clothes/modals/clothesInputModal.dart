@@ -75,7 +75,7 @@ class ClothesInputModal extends StatelessWidget {
                         alignment: Alignment(0.0, 1.0),
                         child: ElevatedButton(
                           onPressed: () => {
-                            //controller.sendFeelClothes()
+                            Navigator.pop(context)
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF1A3761),

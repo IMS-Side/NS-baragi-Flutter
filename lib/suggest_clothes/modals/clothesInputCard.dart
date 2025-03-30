@@ -43,7 +43,7 @@ class ClothesInputCard extends StatelessWidget {
                     height: double.infinity,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFF234C83) : Colors.transparent,
+                      color: isSelected ? const Color(0x80234C83) : Colors.transparent,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: Text(
