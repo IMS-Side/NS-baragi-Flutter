@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 children: [
                   _buildRefreshableView(const MainPageView()),
                   _buildRefreshableView(ApparentWeatherView()),
-                  _buildRefreshableView(const SuggestClothesView()),
+                  _buildRefreshableView(SuggestClothesView()),
                 ],
               ),
             ),

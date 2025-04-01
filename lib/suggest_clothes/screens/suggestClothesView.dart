@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nsbaragi/suggest_clothes/controllers/suggestClothesController.dart';
 import 'package:nsbaragi/suggest_clothes/screens/statistic.dart';
 import 'package:nsbaragi/suggest_clothes/screens/weather.dart';
 
 class SuggestClothesView extends StatelessWidget {
-  const SuggestClothesView({super.key});
+  SuggestClothesView({super.key});
+
+  final SuggestClothesController controller = Get.put(SuggestClothesController());
 
   @override
   Widget build(BuildContext context) {
