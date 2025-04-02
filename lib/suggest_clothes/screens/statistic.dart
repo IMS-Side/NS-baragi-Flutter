@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nsbaragi/suggest_clothes/controllers/suggestClothesController.dart';
 import 'package:nsbaragi/suggest_clothes/widgets/statisticCard.dart';
 
 class Statistic extends StatelessWidget {
-  const Statistic({super.key});
+
+  final SuggestClothesController controller = Get.find<SuggestClothesController>();
 
   @override
   Widget build(BuildContext context) {
+
+    List<List<double>> outerValues = controller.outer.values.toList();
+    List<List<double>> topValues = controller.top.values.toList();
+    List<List<double>> bottomValues = controller.bottom.values.toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -29,12 +37,20 @@ class Statistic extends StatelessWidget {
                     Positioned(
                       top: 26,
                       left: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: outerValues[0][0],
+                        value1: outerValues[0][1],
+                        value2: outerValues[0][2],
+                      ),
                     ),
                     Positioned(
                       top: 26,
                       right: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: outerValues[1][0],
+                        value1: outerValues[1][1],
+                        value2: outerValues[1][2],
+                      ),
                     ),
                     
                     Positioned(
@@ -48,12 +64,20 @@ class Statistic extends StatelessWidget {
                     Positioned(
                       top: 228,
                       left: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: topValues[0][0],
+                        value1: topValues[0][1],
+                        value2: topValues[0][2],
+                      ),
                     ),
                     Positioned(
                       top: 228,
                       right: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: topValues[1][0],
+                        value1: topValues[1][1],
+                        value2: topValues[1][2],
+                      ),
                     ),
                     
                     Positioned(
@@ -67,12 +91,20 @@ class Statistic extends StatelessWidget {
                     Positioned(
                       top: 430,
                       left: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: bottomValues[0][0],
+                        value1: bottomValues[0][1],
+                        value2: bottomValues[0][2],
+                      ),
                     ),
                     Positioned(
                       top: 430,
                       right: 0,
-                      child: StatisticCard(),
+                      child: StatisticCard(
+                        value0: bottomValues[1][0],
+                        value1: bottomValues[1][1],
+                        value2: bottomValues[1][2],
+                      ),
                     ),
                   ],
                 ),

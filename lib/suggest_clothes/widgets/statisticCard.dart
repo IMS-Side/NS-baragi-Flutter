@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class StatisticCard extends StatefulWidget {
-  const StatisticCard({super.key});
+  final double value0;  // 값0
+  final double value1;  // 값1
+  final double value2;  // 값2
+
+  const StatisticCard({
+    super.key,
+    required this.value0,
+    required this.value1,
+    required this.value2
+  });
 
   @override
   State<StatisticCard> createState() => _StatisticCardState();
@@ -49,7 +58,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                            value: 0.8,
+                            value: widget.value0,
                             backgroundColor: Color(0x96666666),
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),
@@ -67,7 +76,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                            value: 0.8,
+                            value: widget.value1,
                             backgroundColor: Color(0x96666666),
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),
@@ -85,7 +94,7 @@ class _StatisticCardState extends State<StatisticCard> {
                         width: 71,
                         height: 3,
                         child: LinearProgressIndicator(
-                            value: 0.8,
+                            value: widget.value2,
                             backgroundColor: Color(0x96666666),
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white)
                         ),
