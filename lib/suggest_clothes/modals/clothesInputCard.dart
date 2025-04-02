@@ -37,7 +37,13 @@ class ClothesInputCard extends StatelessWidget {
 
               return Expanded(
                 child: GestureDetector(
-                  onTap: () => suggestClothesController.selectFeel(serialNum, option),
+                  onTap: () {
+                    if(isSelected){
+                      suggestClothesController.selectedClothes.remove(serialNum);
+                    }else{
+                      suggestClothesController.selectFeel(serialNum, option);
+                    }
+                  },
                   child: Container(
                     height: double.infinity,
                     alignment: Alignment.center,
