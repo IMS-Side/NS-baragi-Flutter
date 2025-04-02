@@ -3,21 +3,21 @@ import 'package:get/get.dart';
 import 'package:nsbaragi/suggest_clothes/controllers/suggestClothesController.dart';
 
 class ClothesInputCard extends StatelessWidget {
-  final String item;
-  final List<String> options;
+  final int serialNum;
+  final List<int> options; // int 리스트로 변경
 
   ClothesInputCard({
-    required this.item,
+    required this.serialNum,
     required this.options,
     super.key,
   });
 
-  final SuggestClothesController controller = Get.put(SuggestClothesController());
+  final SuggestClothesController suggestClothesController = Get.put(SuggestClothesController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      String? select = controller.selectedClothes[item];
+      int? selectedValue = suggestClothesController.selectedClothes[serialNum];
 
       return Card(
         color: Colors.transparent,
@@ -32,13 +32,12 @@ class ClothesInputCard extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(options.length, (index) {
-              final option = options[index];
-              final isSelected = select == option;
+            children: options.map((option) {
+              final isSelected = selectedValue == option;
 
               return Expanded(
                 child: GestureDetector(
-                  onTap: () => controller.selectFeel(item, option),
+                  onTap: () => suggestClothesController.selectFeel(serialNum, option),
                   child: Container(
                     height: double.infinity,
                     alignment: Alignment.center,
@@ -47,7 +46,7 @@ class ClothesInputCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     child: Text(
-                      option,
+                      _convertValueToText(option), // 숫자를 텍스트로 변환하여 표시
                       style: TextStyle(
                         fontFamily: 'PretendardRegular',
                         fontSize: 10,
@@ -58,10 +57,23 @@ class ClothesInputCard extends StatelessWidget {
                   ),
                 ),
               );
-            }),
+            }).toList(),
           ),
         ),
       );
     });
+  }
+
+  String _convertValueToText(int value) {
+    switch (value) {
+      case 1:
+        return "추움";
+      case 2:
+        return "좋음";
+      case 3:
+        return "더움";
+      default:
+        return "";
+    }
   }
 }

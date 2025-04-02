@@ -4,7 +4,7 @@ import 'package:nsbaragi/suggest_clothes/modals/clothesInputCard.dart';
 
 class ClothesInputCards extends StatelessWidget {
   final String category;
-  final List<String> items;
+  final List<Map<String, dynamic>> items;
 
   const ClothesInputCards({
     required this.category,
@@ -31,13 +31,13 @@ class ClothesInputCards extends StatelessWidget {
                   SizedBox(
                     width: Get.width * 0.146,
                     child: Text(
-                      item,
+                      item["name"],
                       style: TextStyle(fontFamily: 'PretendardSemiBold', fontSize: 10, height: 1.7, color: Colors.black),
                     ),
                   ),
                   ClothesInputCard(
-                    item: item,
-                    options: ['추움', '좋음', '더움'],
+                    serialNum : item["serial_number"], //serial_number 전달
+                    options: [1, 2, 3], // 추움-1 좋음-2 더움 -3
                   ),
                 ],
               ),

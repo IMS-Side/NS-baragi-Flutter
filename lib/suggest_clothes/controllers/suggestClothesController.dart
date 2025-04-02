@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,7 +11,7 @@ class SuggestClothesController extends GetxController{
   final SuggestClothesService suggestClothesService = SuggestClothesService();
 
   // obs로 관리할 modal 관련 변수
-  var selectedClothes = <String, String>{}.obs;
+  var selectedClothes = <int, int>{}.obs;
   
   // obs로 관리할 Statistic 관련 변수
   var top = <String, List<double>>{}.obs;
@@ -27,12 +29,38 @@ class SuggestClothesController extends GetxController{
 
 
 
-  void selectFeel(String item, String feel){
-    selectedClothes[item] = feel;
+  void selectFeel(int serialNum, int feel){
+    selectedClothes[serialNum] = feel;
     selectedClothes.refresh();
   }
 
-  Future<void> sendFeelClothes() async {
+  Future<void> sendFeelClothes(String code) async {
+    int admCode = int.parse(code);
+
+    if(selectedClothes.isEmpty){
+      log("선택된 옷이 없습니다.", name:"SuggestClothesController");
+      return;
+    }
+
+    List<Map<String,int>> surveyList = selectedClothes.entries.map((entry){
+      return{
+        "serial_number" : entry.key, //serial_number(int)
+        "value" : entry.value, //1,2,3 (추움, 좋음, 더움)
+      };
+    }).toList();
+
+    log("surveyList : ${surveyList}", name: "SuggestClothesController");
+
+    bool isSuccess = await suggestClothesService.sendClothes({
+      "code" : admCode,
+      "surveylist" : surveyList,
+    });
+
+    if(isSuccess){
+      log("설문이 성공적으로 제출되었습니다.", name: "SuggestClothesController");
+    }else{
+      log("설문 제출에 실패했습니다.", name: "SuggestClothesController");
+    }
 
   }
 

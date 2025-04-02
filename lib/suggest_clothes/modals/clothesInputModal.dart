@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 import 'package:nsbaragi/suggest_clothes/controllers/suggestClothesController.dart';
 import 'package:nsbaragi/suggest_clothes/modals/clothesInputCards.dart';
 
 class ClothesInputModal extends StatelessWidget {
-  ClothesInputModal({Key? key}) : super(key: key);
+  ClothesInputModal({super.key});
 
-  final SuggestClothesController controller = Get.put(SuggestClothesController());
+  final SuggestClothesController suggestClothesController = Get.put(SuggestClothesController());
+  final GeoMapController geoMapController = Get.put(GeoMapController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +55,56 @@ class ClothesInputModal extends StatelessWidget {
                     children: [
                       ClothesInputCards(
                         category: '아우터',
-                        items: ['자켓', '야상', '트렌치코드', '코트'],
+                        items: [
+                          {"name": "카디건", "serial_number": 101},
+                          {"name": "얇은 카디건", "serial_number": 102},
+                          {"name": "자켓", "serial_number": 103},
+                          {"name": "야상", "serial_number": 104},
+                          {"name": "가죽자켓", "serial_number": 105},
+                          {"name": "트렌치코트", "serial_number": 106},
+                          {"name": "코트", "serial_number": 107},
+                          {"name": "두꺼운 코트", "serial_number": 108},
+                          {"name": "패딩", "serial_number": 109},
+                        ],
                       ),
                       SizedBox(height: Get.height * 0.010),
                       ClothesInputCards(
                         category: '상의',
-                        items: ['민소매', '반팔', '얇은 셔츠', '긴팔'],
+                        items: [
+                          {"name": "민소매", "serial_number": 201},
+                          {"name": "반팔", "serial_number": 202},
+                          {"name": "얇은 셔츠", "serial_number": 203},
+                          {"name": "긴팔", "serial_number": 204},
+                          {"name": "얇은 니트", "serial_number": 205},
+                          {"name": "니트", "serial_number": 206},
+                          {"name": "맨투맨", "serial_number": 207},
+                        ],
                       ),
                       SizedBox(height: Get.height * 0.010),
                       ClothesInputCards(
                         category: '하의',
-                        items: ['반바지', '면바지', '청바지', '후드 집업'],
+                        items: [
+                          {"name": "반바지", "serial_number": 301},
+                          {"name": "면바지", "serial_number": 302},
+                          {"name": "청바지", "serial_number": 303},
+                        ],
                       ),
                       SizedBox(height: Get.height * 0.010),
                       ClothesInputCards(
                         category: '기타',
-                        items: ['목도리', '기모', '레깅스', '스타킹'],
+                        items: [
+                          {"name": "목도리", "serial_number": 401},
+                          {"name": "기모제품", "serial_number": 402},
+                          {"name": "레깅스", "serial_number": 403},
+                          {"name": "스타킹", "serial_number": 404},
+                        ],
                       ),
                       SizedBox(height: Get.height * 0.030),
                       Align(
                         alignment: Alignment(0.0, 1.0),
                         child: ElevatedButton(
                           onPressed: () => {
+                            suggestClothesController.sendFeelClothes(geoMapController.admCode.value),
                             Navigator.pop(context)
                           },
                           style: ElevatedButton.styleFrom(

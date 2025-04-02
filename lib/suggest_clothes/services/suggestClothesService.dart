@@ -10,8 +10,6 @@ class SuggestClothesService {
   final String baseUrl = dotenv.env['SERVER_URL'] ?? '';
   final GeoMapController geoMapController = Get.find<GeoMapController>();
 
-
-
   // 4.1 옷 설문조사 요청
   Future<bool> sendClothes(Map<String, dynamic> requestBody) async {
     try {
@@ -33,8 +31,6 @@ class SuggestClothesService {
       return false;
     }
   }
-
-
 
   // fetchStatistic 메서드
   Future<Map<String, Map<String, List<double>>>> fetchStatistic() async {
