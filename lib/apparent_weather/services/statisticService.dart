@@ -83,4 +83,28 @@ class StatisticService {
     // response 반환
     return response;
   }
+
+
+
+  // 체감 날씨 생성
+  Future<bool> sendFeelWeather(Map<String, dynamic> requestBody) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/weather/add'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(requestBody),
+      );
+
+      print("서버 응답: ${response.body}");
+
+      if (response.statusCode == 200) {
+        return true; // 성공
+      } else {
+        return false; // 실패
+      }
+    } catch (e) {
+      print("생성 오류: $e");
+      return false;
+    }
+  }
 }

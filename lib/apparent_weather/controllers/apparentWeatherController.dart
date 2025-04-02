@@ -7,6 +7,9 @@ class ApparentWeatherController extends GetxController {
   final StatisticService statisticService = StatisticService();
   final WeatherService weatherService = WeatherService();
 
+  // obs로 관리할 modal 관련 변수
+  var selectedWeathers = <int, int>{}.obs;
+
   // obs로 관리할 Weather 관련 변수
   var location = "로딩 중...".obs;
   var currentTemp = "".obs;
@@ -52,6 +55,39 @@ class ApparentWeatherController extends GetxController {
     sunlight.value = (statistics["sunlight"] as List?)?.cast<double>() ?? [1.0, 1.0, 1.0, 1.0];
     wind.value = (statistics["wind"] as List?)?.cast<double>() ?? [1.0, 1.0, 1.0, 1.0];
     cloud.value = (statistics["cloud"] as List?)?.cast<double>() ?? [1.0, 1.0, 1.0, 1.0];
+
+  }
+
+
+
+  // 체감 날씨 생성
+  Future<void> sendFeelWeather(String code) async {
+    int admCode = int.parse(code);
+
+    if(selectedWeathers.isEmpty){
+      print("선택된 옷이 없습니다.");
+      return;
+    }
+
+    List<Map<String,int>> surveyList = selectedWeathers.entries.map((entry){
+      return{
+        "serialNumber" : entry.key,
+        "value" : entry.value +1 ,
+      };
+    }).toList();
+
+    print("surveyList : ${surveyList}");
+
+    bool isSuccess = await statisticService.sendFeelWeather({
+      "code" : admCode,
+      "surveylist" : surveyList,
+    });
+
+    if(isSuccess){
+      print("설문이 성공적으로 제출되었습니다.");
+    }else{
+      print("설문 제출에 실패했습니다.");
+    }
 
   }
 
