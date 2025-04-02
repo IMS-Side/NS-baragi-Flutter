@@ -12,6 +12,9 @@ class SuggestClothesController extends GetxController{
 
   // obs로 관리할 modal 관련 변수
   var selectedClothes = <int, int>{}.obs;
+
+  // obs로 관리할 Weather 관련 변수
+  var recommendation = "".obs;
   
   // obs로 관리할 Statistic 관련 변수
   var top = <String, List<double>>{}.obs;
@@ -24,6 +27,7 @@ class SuggestClothesController extends GetxController{
     super.onInit();
 
     fetchStatistics();
+    fetchWeather();
 
   }
 
@@ -78,6 +82,16 @@ class SuggestClothesController extends GetxController{
     print("업데이트된 top 데이터: $top");
     print("업데이트된 bottom 데이터: $bottom");
     print("업데이트된 outer 데이터: $outer");
+  }
+
+
+
+  // Weather 관련 데이터 설정
+  Future<void> fetchWeather() async {
+    print('컨트롤러 : fetchWeather 함수 실행');
+    final weather = await suggestClothesService.fetchWeather();
+
+    recommendation.value = weather["recommendation"];
   }
 
 }

@@ -4,11 +4,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
+import 'package:nsbaragi/main_page/controllers/shortWeatherController.dart';
 
 class SuggestClothesService {
 
   final String baseUrl = dotenv.env['SERVER_URL'] ?? '';
   final GeoMapController geoMapController = Get.find<GeoMapController>();
+  final ShortWeatherController shortWeatherController = Get.find<ShortWeatherController>();
 
   // 4.1 옷 설문조사 요청
   Future<bool> sendClothes(Map<String, dynamic> requestBody) async {
@@ -100,6 +102,53 @@ class SuggestClothesService {
       print('예외 발생 : $e');
     }
     
+    // response 반환
+    return response;
+  }
+
+
+
+  // fetchWeather 메서드
+  Future<Map<String, dynamic>> fetchWeather() async {
+
+    // 임시 반환값 선언
+    var response = { "recommendation" : "" };
+
+    // 현재 기온이 설정될 때까지 기다림
+    while (shortWeatherController.temperature.value == "" || shortWeatherController.temperature.value.isEmpty) {
+      print("현재 기온이 아직 설정되지 않음. 대기 중...");
+      await Future.delayed(Duration(milliseconds: 1000));
+    }
+
+    var strTemp = shortWeatherController.temperature.value;
+
+    String recommendation = '';
+
+    // temperature 값이 숫자인지 확인하고, 아니면 기본값 설정
+    int temp = int.tryParse(strTemp.substring(0, strTemp.length-1)) ?? 0;
+
+    // 온도 범위에 따른 추천 문구 설정
+    if (temp >= 28) {
+      recommendation = '민소매나\n반팔 티를 추천해요';
+    } else if (temp >= 23) {
+      recommendation = '반팔 티와\n반바지를 추천해요';
+    } else if (temp >= 20) {
+      recommendation = '긴팔 티와\n면바지를 추천해요';
+    } else if (temp >= 17) {
+      recommendation = '얇은 가디건이나\n맨투맨을 추천해요';
+    } else if (temp >= 12) {
+      recommendation = '청바지와\n니트를 추천해요';
+    } else if (temp >= 9) {
+      recommendation = '트렌치 코트나\n야상을 추천해요';
+    } else if (temp >= 5) {
+      recommendation = '울 코트와\n기모 옷을 추천해요';
+    } else {
+      recommendation = '두꺼운 코트나\n패딩을 추천해요';
+    }
+
+    // response에 저장
+    response["recommendation"] = recommendation;
+
     // response 반환
     return response;
   }
