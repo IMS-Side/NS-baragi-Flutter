@@ -1,11 +1,9 @@
 import 'package:get/get.dart';
 import 'package:nsbaragi/apparent_weather/services/statisticService.dart';
-import 'package:nsbaragi/apparent_weather/services/weatherService.dart';
 
 class ApparentWeatherController extends GetxController {
 
   final StatisticService statisticService = StatisticService();
-  final WeatherService weatherService = WeatherService();
 
   // obs로 관리할 modal 관련 변수
   var selectedWeathers = <int, int>{}.obs;
@@ -28,21 +26,8 @@ class ApparentWeatherController extends GetxController {
   void onInit() {
     super.onInit();
 
-    fetchWeather();
     fetchStatistics();
 
-  }
-
-  // Weather 관련 데이터 받아옴
-  Future<void> fetchWeather() async {
-    print('컨트롤러 : fetchWeather 함수 실행');
-    final weatherData = await weatherService.fetchWeather();
-
-    location.value = weatherData["location"];
-    currentTemp.value = weatherData["currentTemp"];
-    apparentTemp.value = weatherData["apparentTemp"];
-    maxTemp.value = weatherData["maxTemp"];
-    minTemp.value = weatherData["minTemp"];
   }
 
   // Statistic 관련 데이터 받아옴
