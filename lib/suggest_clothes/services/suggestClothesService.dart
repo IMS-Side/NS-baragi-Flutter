@@ -59,7 +59,7 @@ class SuggestClothesService {
     print('행정동 코드 조회 응답 데이터: $admCode');
 
     // 추천옷 통계 조회 API 호출
-    Uri getStatisticUri = Uri.parse('http://192.168.0.223:8080/cloth/count/toptwo/$admCode');
+    Uri getStatisticUri = Uri.parse('$baseUrl/cloth/count/toptwo/$admCode');
     try {
       print('추천옷 통계 조회 try문 진입');
 

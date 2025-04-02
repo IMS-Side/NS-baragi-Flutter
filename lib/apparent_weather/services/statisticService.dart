@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -6,6 +7,7 @@ import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 
 class StatisticService {
 
+  final String baseUrl = dotenv.env['SERVER_URL'] ?? '';
   final GeoMapController geoMapController = Get.find<GeoMapController>();
 
   Future<Map<String, List<double>>> fetchStatistic() async {
@@ -36,7 +38,7 @@ class StatisticService {
     print('행정동 코드 조회 응답 데이터: $admCode');
 
     // 체감날씨 통계 조회 API 호출
-    Uri getStatisticUri = Uri.parse('http://192.168.0.223:8080/weather/count/$admCode');
+    Uri getStatisticUri = Uri.parse('$baseUrl/weather/count/$admCode');
     try {
       print('체감날씨 통계 조회 try문 진입');
 
