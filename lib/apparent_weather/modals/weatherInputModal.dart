@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nsbaragi/apparent_weather/controllers/apparentWeatherController.dart';
 import 'package:nsbaragi/apparent_weather/modals/weatherInputCard.dart';
+import 'package:nsbaragi/main_page/controllers/geoMapController.dart';
 
 class WeatherInputModal extends StatelessWidget {
-  const WeatherInputModal({super.key});
+  WeatherInputModal({super.key});
+
+  final apparentWeatherController = Get.find<ApparentWeatherController>();
+  final GeoMapController geoMapController = Get.find<GeoMapController>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,11 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(options: ['없음','보통','많음']),
+                            WeatherInputCard(
+                                name: "비",
+                                serialNum: 1,
+                                options: ['없음','보통','많음']
+                            ),
                           ],
                         )
                     ),
@@ -92,7 +102,11 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(options: ['낮음','보통','높음']),
+                            WeatherInputCard(
+                                name: "습도",
+                                serialNum: 2,
+                                options: ['낮음','보통','높음']
+                            ),
                           ],
                         )
                     ),
@@ -114,7 +128,11 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(options: ['조금','보통','많음']),
+                            WeatherInputCard(
+                                name: "햇살",
+                                serialNum: 3,
+                                options: ['조금','보통','많음']
+                            ),
                           ],
                         )
                     ),
@@ -136,7 +154,11 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(options: ['낮음','보통','높음']),
+                            WeatherInputCard(
+                                name: "바람",
+                                serialNum: 4,
+                                options: ['낮음','보통','높음']
+                            ),
                           ],
                         )
                     ),
@@ -158,7 +180,11 @@ class WeatherInputModal extends StatelessWidget {
                               ),
                             ),
 
-                            WeatherInputCard(options: ['맑음','구름 조금','구름 많음', '흐림']),
+                            WeatherInputCard(
+                                name: "하늘상태",
+                                serialNum: 5,
+                                options: ['맑음','구름 조금','구름 많음', '흐림']
+                            ),
                           ],
                         )
                     ),
@@ -167,8 +193,9 @@ class WeatherInputModal extends StatelessWidget {
                       alignment: Alignment(0.0, 1.0),
 
                       child: ElevatedButton(
-                        onPressed: (){
-                          Navigator.pop(context);
+                        onPressed: () => {
+                          apparentWeatherController.sendFeelWeather(geoMapController.admCode.value),
+                          Navigator.pop(context)
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF1A3761),
