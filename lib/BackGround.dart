@@ -57,7 +57,7 @@ class Background extends StatelessWidget {
     if (description.contains('눈')) {
       return {'colors': snow, 'stops': snowStop};
     }
-    if (description.contains('비') || description.contains('흐림') || description.contains('구름')) {
+    if (description.contains('비') || description.contains('흐림')) {
       return {'colors': cloudy, 'stops': cloudyStop};
     }
 
