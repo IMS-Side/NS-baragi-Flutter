@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class StatisticCard extends StatefulWidget {
+  final String icon;    // 아이콘
   final double value0;  // 값0
   final double value1;  // 값1
   final double value2;  // 값2
 
   const StatisticCard({
     super.key,
+    required this.icon,
     required this.value0,
     required this.value1,
     required this.value2
@@ -37,7 +39,7 @@ class _StatisticCardState extends State<StatisticCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/sample_clothes.png',
+              widget.icon,
               width: 70,
               height: 77,
             ),

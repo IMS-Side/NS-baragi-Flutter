@@ -68,7 +68,7 @@ class _WeatherState extends State<Weather> {
                       top: 10,
                       right: 0,
                       child: Image.asset(
-                        'assets/images/sample_clothes.png',
+                        suggestClothesController.rcmdIcon.value,
                         width: 122,
                         height: 122,
                       ),

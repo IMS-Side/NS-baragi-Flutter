@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:nsbaragi/suggest_clothes/services/suggestClothesService.dart';
 
@@ -15,6 +13,7 @@ class SuggestClothesController extends GetxController{
 
   // obs로 관리할 Weather 관련 변수
   var recommendation = "".obs;
+  var rcmdIcon = "".obs;
   
   // obs로 관리할 Statistic 관련 변수
   var top = <String, List<double>>{}.obs;
@@ -92,6 +91,7 @@ class SuggestClothesController extends GetxController{
     final weather = await suggestClothesService.fetchWeather();
 
     recommendation.value = weather["recommendation"];
+    rcmdIcon.value = weather["rcmdIcon"];
   }
 
 }
