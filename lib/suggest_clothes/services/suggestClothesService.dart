@@ -112,7 +112,7 @@ class SuggestClothesService {
   Future<Map<String, dynamic>> fetchWeather() async {
 
     // 임시 반환값 선언
-    var response = { "recommendation" : "" };
+    var response = { "recommendation" : "", "rcmdIcon" : "" };
 
     // 현재 기온이 설정될 때까지 기다림
     while (shortWeatherController.temperature.value == "" || shortWeatherController.temperature.value.isEmpty) {
@@ -123,6 +123,7 @@ class SuggestClothesService {
     var strTemp = shortWeatherController.temperature.value;
 
     String recommendation = '';
+    String rcmdIcon = '';
 
     // temperature 값이 숫자인지 확인하고, 아니면 기본값 설정
     int temp = int.tryParse(strTemp.substring(0, strTemp.length-1)) ?? 0;
@@ -130,24 +131,33 @@ class SuggestClothesService {
     // 온도 범위에 따른 추천 문구 설정
     if (temp >= 28) {
       recommendation = '민소매나\n반팔 티를 추천해요';
+      rcmdIcon = 'assets/images/sleeveless.png';
     } else if (temp >= 23) {
       recommendation = '반팔 티와\n반바지를 추천해요';
+      rcmdIcon = 'assets/images/t-shirt.png';
     } else if (temp >= 20) {
       recommendation = '긴팔 티와\n면바지를 추천해요';
+      rcmdIcon = 'assets/images/longsleeve.png';
     } else if (temp >= 17) {
       recommendation = '얇은 가디건이나\n맨투맨을 추천해요';
+      rcmdIcon = 'assets/images/cardigan.png';
     } else if (temp >= 12) {
       recommendation = '청바지와\n니트를 추천해요';
+      rcmdIcon = 'assets/images/knit_sweater.png';
     } else if (temp >= 9) {
       recommendation = '트렌치 코트나\n야상을 추천해요';
+      rcmdIcon = 'assets/images/trench_coat.png';
     } else if (temp >= 5) {
       recommendation = '울 코트와\n기모 옷을 추천해요';
+      rcmdIcon = 'assets/images/coat.png';
     } else {
       recommendation = '두꺼운 코트나\n패딩을 추천해요';
+      rcmdIcon = 'assets/images/puffer_jacket.png';
     }
 
     // response에 저장
     response["recommendation"] = recommendation;
+    response["rcmdIcon"] = rcmdIcon;
 
     // response 반환
     return response;
